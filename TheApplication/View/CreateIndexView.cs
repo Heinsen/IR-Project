@@ -36,12 +36,36 @@ namespace TheApplication.View
 
         private void SetSourceCollectionPathButton_Click(object sender, EventArgs e)
         {
-            _CreateIndexController.SetSourceCollectionPath();
+            string NewSourceCollectionPath = ShowFolderBrowser();
+            if (NewSourceCollectionPath != string.Empty)
+            {
+                SourceCollectionPathTextBox.Text = NewSourceCollectionPath;
+                _CreateIndexController.SetSourceCollectionPath(NewSourceCollectionPath);
+            }
         }
 
         private void SetIndexPathButton_Click(object sender, EventArgs e)
         {
-            _CreateIndexController.SetIndexPath();
+            string NewIndexPath = ShowFolderBrowser();
+            if(NewIndexPath != string.Empty)
+            {
+                IndexPathTextBox.Text = NewIndexPath;
+                _CreateIndexController.SetIndexPath(NewIndexPath);
+            }
+        }
+
+        private string ShowFolderBrowser()
+        {
+            this.FolderBrowser.ShowNewFolderButton = false;
+            this.FolderBrowser.RootFolder = System.Environment.SpecialFolder.UserProfile;
+
+            DialogResult result = this.FolderBrowser.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                return this.FolderBrowser.SelectedPath;
+            }
+
+            return string.Empty;
         }
 
 
@@ -107,7 +131,7 @@ namespace TheApplication.View
 
         private void ConfirmIndexButton_Click(object sender, EventArgs e)
         {
-
+            _CreateIndexController.ConfirmIndex();
         }
     }
 }

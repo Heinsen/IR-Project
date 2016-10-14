@@ -36,6 +36,7 @@
             this.ConfirmIndexButton = new System.Windows.Forms.Button();
             this.SourceCollectionPathTextBox = new TheApplication.View.WaterMarkTextBox();
             this.IndexPathTextBox = new TheApplication.View.WaterMarkTextBox();
+            this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // SetSourceCollectionPathButton
@@ -50,13 +51,13 @@
             // 
             // SetIndexPathButton
             // 
-            this.SetIndexPathButton.BackColor = System.Drawing.Color.DarkGreen;
+            this.SetIndexPathButton.BackColor = System.Drawing.SystemColors.Control;
             this.SetIndexPathButton.Location = new System.Drawing.Point(629, 237);
             this.SetIndexPathButton.Name = "SetIndexPathButton";
             this.SetIndexPathButton.Size = new System.Drawing.Size(135, 41);
             this.SetIndexPathButton.TabIndex = 1;
             this.SetIndexPathButton.Text = "Find path";
-            this.SetIndexPathButton.UseVisualStyleBackColor = false;
+            this.SetIndexPathButton.UseVisualStyleBackColor = true;
             this.SetIndexPathButton.Click += new System.EventHandler(this.SetIndexPathButton_Click);
             // 
             // CreateIndexButton
@@ -136,7 +137,7 @@
             this.Controls.Add(this.SetIndexPathButton);
             this.Controls.Add(this.SetSourceCollectionPathButton);
             this.Name = "CreateIndexView";
-            this.Text = "CreateIndexView";
+            this.Text = "Search Engine 1.0 Create Index";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,5 +153,6 @@
         private System.Windows.Forms.TextBox IndexTimerTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ConfirmIndexButton;
+        private System.Windows.Forms.FolderBrowserDialog FolderBrowser;
     }
 }
