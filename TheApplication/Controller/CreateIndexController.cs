@@ -3,45 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheApplication.Model;
+using System.Configuration;
+using System.ComponentModel;
+using System.Threading;
+
 
 namespace TheApplication.Controller
 {
     public class CreateIndexController
     {
-
+        LuceneHelper _LuceneHelper;
+        List<SEDocument> _SourceCollection;
+        
         public CreateIndexController()
         {
-
         }
 
-        public bool CreateIndex(string CollectionPath, string IndexPath)
+        public bool CreateIndex()
         {
+            //TODO In case no Source Collection was found
+            _SourceCollection = FileManipulator.SearchDirectory((string)Properties.Settings.Default["SourceCollectionPath"]);
+
+            _LuceneHelper = new LuceneHelper(_SourceCollection, (string)Properties.Settings.Default["IndexPath"]);
+
             return true;
         }
 
-        public void SetSourceCollectionPath()
+        public void SetSourceCollectionPath(string SourceCollectionPath)
         {
-            
+            Properties.Settings.Default["SourceCollectionPath"] = SourceCollectionPath;
+            Properties.Settings.Default.Save();
         }
 
         public string GetSourceCollectionPath()
         {
-            return string.Empty;
+            return (string)Properties.Settings.Default["SourceCollectionPath"];
         }
 
-        public void SetIndexPath()
+        public void SetIndexPath(string IndexPath)
         {
-            
+            Properties.Settings.Default["IndexPath"] = IndexPath;
+            Properties.Settings.Default.Save();
         }
 
         public string GetIndexPath()
         {
-            return string.Empty;
+            return (string)Properties.Settings.Default["IndexPath"];
         }
 
         public void ConfirmIndex()
         {
-
+            //TODO Open next form
+            
         }
     }
 }

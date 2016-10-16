@@ -34,9 +34,9 @@
             this.IndexTimerTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ConfirmIndexButton = new System.Windows.Forms.Button();
+            this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.SourceCollectionPathTextBox = new TheApplication.View.WaterMarkTextBox();
             this.IndexPathTextBox = new TheApplication.View.WaterMarkTextBox();
-            this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // SetSourceCollectionPathButton

@@ -14,7 +14,7 @@ namespace TheApplication.View
     public partial class CreateIndexView : Form
     {
         CreateIndexController _CreateIndexController;
-        delegate bool CreateIndexDelegate(string SourceCollectionPath, string IndexPath);
+        public delegate bool CreateIndexDelegate();
         CreateIndexDelegate _CreateIndexDelegate;
         Timer _Timer = new Timer();
         DateTime _StartTime;
@@ -36,11 +36,11 @@ namespace TheApplication.View
 
         private void SetSourceCollectionPathButton_Click(object sender, EventArgs e)
         {
-            string NewSourceCollectionPath = ShowFolderBrowser();
-            if (NewSourceCollectionPath != string.Empty)
+            string SourceNewCollectionPath = ShowFolderBrowser();
+            if (SourceNewCollectionPath != string.Empty)
             {
-                SourceCollectionPathTextBox.Text = NewSourceCollectionPath;
-                _CreateIndexController.SetSourceCollectionPath(NewSourceCollectionPath);
+                SourceCollectionPathTextBox.Text = SourceNewCollectionPath;
+                _CreateIndexController.SetSourceCollectionPath(SourceNewCollectionPath);
             }
         }
 
@@ -99,22 +99,38 @@ namespace TheApplication.View
             _StartTime = System.DateTime.Now;
             _Timer.Start();
 
+            //_CreateIndexController.CreateIndex();
+
             _CreateIndexDelegate = new CreateIndexDelegate(_CreateIndexController.CreateIndex);
-            _CreateIndexDelegate.BeginInvoke(string.Empty, string.Empty, this.IndexCreated, null);
+            _CreateIndexDelegate.BeginInvoke(this.IndexCreated, null);
         }
 
         private void IndexCreated(IAsyncResult result)
         {
             if (this.InvokeRequired)
             {
+                try {
                 this.Invoke(
                     new MethodInvoker(
                     delegate () { IndexCreated(result); }));
+                }
+                catch(Exception e)
+                {
+                }
             }
             else
             {
-                bool SuccessfullyCreatedIndex = _CreateIndexDelegate.EndInvoke(result);
 
+                bool SuccessfullyCreatedIndex = false;
+
+                try
+                {
+                    SuccessfullyCreatedIndex = _CreateIndexDelegate.EndInvoke(result);
+                }
+                catch(Exception e)
+                {
+                   
+                }
                 _Timer.Stop();
                 CreateIndexButton.Enabled = true;
 
@@ -132,6 +148,7 @@ namespace TheApplication.View
         private void ConfirmIndexButton_Click(object sender, EventArgs e)
         {
             _CreateIndexController.ConfirmIndex();
+            this.Hide();
         }
     }
 }
