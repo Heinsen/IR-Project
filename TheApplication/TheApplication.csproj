@@ -36,7 +36,6 @@
       <HintPath>..\packages\AboditUnits.3.1.734\lib\net40\AboditUnits.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Accessibility" />
     <Reference Include="ejml-0.23, Version=0.23.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Stanford.NLP.CoreNLP.3.6.0.0\lib\ejml-0.23.dll</HintPath>
       <Private>True</Private>
@@ -214,9 +213,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -231,41 +228,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\ConfigManipulator.cs" />
-    <Compile Include="Controller\CreateIndexController.cs" />
-    <Compile Include="Model\SEDocument.cs" />
-    <Compile Include="Model\FIleManipulator.cs" />
-    <Compile Include="Model\LuceneHelper.cs" />
-    <Compile Include="View\CreateIndexView.cs">
+    <Compile Include="Doc.cs" />
+    <Compile Include="frmIR.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CreateIndexView.Designer.cs">
-      <DependentUpon>CreateIndexView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\frmIR.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\frmIR.Designer.cs">
+    <Compile Include="frmIR.Designer.cs">
       <DependentUpon>frmIR.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\NewSimilarity.cs" />
-    <Compile Include="Controller\PorterStemmer.cs" />
-    <Compile Include="Controller\Program.cs" />
+    <Compile Include="LuceneAdvancedSearch.cs" />
+    <Compile Include="NewSimilarity.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="PorterStemmer.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controller\QueryParser.cs" />
-    <Compile Include="View\SearchView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\SearchView.Designer.cs">
-      <DependentUpon>SearchView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\WaterMarkTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <EmbeddedResource Include="View\CreateIndexView.resx">
-      <DependentUpon>CreateIndexView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\frmIR.resx">
+    <Compile Include="QueryParser.cs" />
+    <EmbeddedResource Include="frmIR.resx">
       <DependentUpon>frmIR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -276,8 +255,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="bin\Debug\TheApplication.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -288,19 +267,133 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="SearchEngine.config" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\dcoref\coref.properties" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\coref.dict1.tsv" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\coref.dict2.tsv" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\coref.dict3.tsv" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\coref.dict4.tsv" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\countries" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\gender.data.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\gender.map.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\singleton.predictor.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\statesandprovinces" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\gender\first_name_map_small" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\cc-rf-model.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\cc-rf-model0.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\ll-rf-model.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\md-model.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\pc-rf-model.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\pp-rf-model.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\pp-rf-model0.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\hcoref\pr-rf-model.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\lexparser\englishFactored.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\lexparser\englishPCFG.caseless.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\lexparser\englishPCFG.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\lexparser\englishRNN.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\lexparser\wsjFactored.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\lexparser\wsjPCFG.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\lexparser\wsjRNN.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\naturalli\affinities\obj.tab.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\naturalli\affinities\pp.tab.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\naturalli\affinities\subj_obj_pp.tab.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\naturalli\affinities\subj_pp.tab.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\naturalli\affinities\subj_pp_obj.tab.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\naturalli\affinities\subj_pp_pp.tab.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\naturalli\clauseSearcherModel.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.all.3class.caseless.distsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.all.3class.caseless.distsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.all.3class.distsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.all.3class.distsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.all.3class.nodistsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.all.3class.nodistsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.conll.4class.caseless.distsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.conll.4class.caseless.distsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.conll.4class.distsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.conll.4class.distsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.conll.4class.nodistsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.conll.4class.nodistsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.muc.7class.caseless.distsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.muc.7class.caseless.distsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.muc.7class.distsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.muc.7class.distsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.muc.7class.nodistsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.muc.7class.nodistsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.nowiki.3class.caseless.distsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.nowiki.3class.caseless.distsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.nowiki.3class.nodistsim.crf.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ner\english.nowiki.3class.nodistsim.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\parser\nndep\english_SD.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\parser\nndep\english_UD.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\parser\nndep\wsj_SD.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\english-bidirectional\english-bidirectional-distsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\english-bidirectional\english-bidirectional-distsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\english-caseless-left3words-distsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\english-caseless-left3words-distsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\english-left3words\english-left3words-distsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\english-left3words\english-left3words-distsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-bidirectional-distsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-bidirectional-distsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-bidirectional-nodistsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-bidirectional-nodistsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-caseless-left3words-distsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-caseless-left3words-distsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-left3words-distsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-left3words-distsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-left3words-nodistsim.tagger" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\pos-tagger\wsj-0-18-left3words-nodistsim.tagger.props" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\regexner\type_map_clean" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\scoref\anaphoricity_model.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\scoref\classification_model.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\scoref\clustering_model.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\scoref\ranking_model.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\scoref\word_counts.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\sentiment\sentiment.binary.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\sentiment\sentiment.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\srparser\englishSR.beam.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\srparser\englishSR.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\supervised_relation_extractor\roth_relation_model_pipelineNER.ser" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\truecase\MixDisambiguation.list" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\truecase\truecasing.fast.caseless.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\truecase\truecasing.fast.caseless.qn.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\truecase\truecasing.fast.prop" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\truecase\truecasing.fast.qn.ser.gz" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\upos\ENUniversalPOS.tsurgeon" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\pipeline\StanfordCoreNLP.properties" />
+    <None Include="stanford-english-corenlp-2016-01-10-models\META-INF\MANIFEST.MF" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\TheApplication.exe" />
+    <Content Include="bin\Debug\TheApplication.pdb" />
     <Content Include="license.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\animate.unigrams.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\demonyms.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\female.unigrams.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\inanimate.unigrams.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\male.unigrams.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\namegender.combine.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\ne.signatures.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\neutral.unigrams.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\plural.unigrams.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\singular.unigrams.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\dcoref\state-abbreviations.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\sutime\defs.sutime.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\sutime\english.holidays.sutime.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\sutime\english.sutime.txt" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\sutime\jollyday\Holidays_sutime.xml" />
+    <Content Include="stanford-english-corenlp-2016-01-10-models\edu\stanford\nlp\models\ud\feature_map.txt" />
+    <Content Include="XMLFile1.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WordNet\WordNet.csproj">
       <Project>{f4c6c48c-90ef-445d-b8f8-ad9b6767d9a8}</Project>
       <Name>WordNet</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

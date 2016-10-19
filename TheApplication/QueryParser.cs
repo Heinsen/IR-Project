@@ -22,6 +22,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Net;
+using System.Xml;
 
 namespace TheApplication
 {
@@ -29,7 +31,7 @@ namespace TheApplication
     {
         PorterStemmerAlgorithm.PorterStemmer myStemmer; 
         System.Collections.Generic.Dictionary<string, int> tokenCount; 
-        public string[] stopWords = {"a", "an", "and", "are", "as", "at", "be", "but", "by","for", "if", "in", "into", "is", "it","no", "not", "of", "on", "or", "such","that", "the", "their", "then", "there", "these","they", "this", "to", "was", "will", "with"}; // for challange activity
+        public string[] stopWords = {"a", "an", "and", "are", "as", "at", "be", "but", "by","for", "if", "in", "into", "is", "it","no", "not", "of", "on", "or", "such","that", "the", "their", "then", "there", "these","they", "this", "to", "was", "will", "with"};
         private static Dictionary<string, WordNetEngine.POS> POSList;
 
         public QueryParser()
@@ -100,35 +102,81 @@ namespace TheApplication
         }
 
 
+        public string GetSynonyms(string word)
+        {
+            //string url = string.Format("http://words.bighugelabs.com/api/2/7d767a7c110f12ce6521e0e6e3a46e55/{0}/json", word);
+            string url = string.Format("http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/{0}?key=f8ebaf16-367e-415b-899e-a6126a040fa3", word);
+            return CallRestMethod(url);
+
+        }
+
+        public static string CallRestMethod(string url)
+        {
+            HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(url);
+            webrequest.Method = "GET";
+            webrequest.ContentType = "application/x-www-form-urlencoded";
+            HttpWebResponse webresponse = (HttpWebResponse)webrequest.GetResponse();
+            Encoding enc = System.Text.Encoding.GetEncoding("utf-8");
+            StreamReader responseStream = new StreamReader(webresponse.GetResponseStream(), enc);
+            string result = string.Empty;
+            result = responseStream.ReadToEnd();
+            XmlDocument xmlResult = new XmlDocument();
+            xmlResult.LoadXml(result);
+            string syns = string.Empty;
+            XmlNodeList xmlNode = xmlResult.SelectNodes("/entry_list/entry/sens/syn");
+            if (xmlNode != null && xmlNode.Count > 0)
+            {
+                foreach (XmlNode xNode in xmlNode)
+                {
+                    syns += xNode.FirstChild.Value;
+                    //"adhere (to), comply (with), conform (to), follow, goose-step (to), mind, observe"	string
+
+                }
+            }
+            webresponse.Close();
+            return syns;
+        }
+
+
         public string InformationNeedParser(string userQuery)
         {
-            //string[] query = ProcessText(userQuery);
-            string taggedQuery = POSTagger(userQuery);
-            string[] query = ProcessText(taggedQuery);
+            string[] basicquery = ProcessText(userQuery);
+            //string taggedQuery = POSTagger(userQuery);
+            //string[] query = ProcessText(taggedQuery);
             Dictionary<string, WordNetEngine.POS> POSList = BindPOSDictionary();
+            
+        //http://words.bighugelabs.com/api/2/7d767a7c110f12ce6521e0e6e3a46e55/word/xml
+        //Your API key is 7d767a7c110f12ce6521e0e6e3a46e55
+
+            //http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/umpire?key=[YOUR KEY GOES HERE]
+            //Key (Thesaurus): f8ebaf16-367e-415b-899e-a6126a040fa3
+            //Key (Dictionary): ecc5d2c5-f4a4-41db-b471-7cbc5127a7fd
 
             List<SynSet> synonyms = new List<SynSet>();
             string syns = string.Empty;
-            foreach (string token in query)
+            foreach (string token in basicquery)
             {
-                string[] t = token.Split('/');
-                if (t!= null && t.Count() > 1 && POSList.ContainsKey(t[1].ToUpper()))
-                {
-                    synonyms = WordNet(t[0], POSList[t[1].ToUpper()]);
+                //string[] t = token.Split('/');
+                //if (t!= null && t.Count() > 1 && POSList.ContainsKey(t[1].ToUpper()))
+                //{
+                    //syns = syns + " " + GetSynonyms(token);
+                //synonyms = WordNet(t[0], POSList[t[1].ToUpper()]);
 
-                    if (synonyms != null && synonyms.Count > 0)
+                synonyms = WordNet(token, POSList["NN"]);
+                if (synonyms != null && synonyms.Count > 0)
+                {
+                    foreach (SynSet synSet in synonyms)
                     {
-                        foreach (SynSet synSet in synonyms)
-                        {
-                            if (synSet.Words != null && synSet.Words.Any())
-                                foreach (string s in synSet.Words)
-                                    if (!s.ToUpper().Equals(token.ToUpper()))
-                                        syns = syns + " " + s;
-                        }
+                        if (synSet.Words != null && synSet.Words.Any())
+                            foreach (string s in synSet.Words)
+                                if (!s.ToUpper().Equals(token.ToUpper()))
+                                    syns = syns + " " + s;
                     }
                 }
+                //}
             }
-            return string.Join(" ", query) + syns + " ";
+            //string[] expandedQuery = ProcessText(syns);
+            return string.Join(" ", basicquery) + " " + syns;
         }
 
         public static Dictionary<string, WordNetEngine.POS> BindPOSDictionary()
@@ -153,7 +201,7 @@ namespace TheApplication
         {
             List<string> phraseList = new List<string>();
             foreach (Match match in Regex.Matches(str, "\"([^\"]*)\""))
-                phraseList.Add(match.ToString());
+                phraseList.Add(match.ToString().Trim('"'));
             return phraseList;
         }
           
