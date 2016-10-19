@@ -228,25 +228,43 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Doc.cs" />
-    <Compile Include="frmIR.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmIR.Designer.cs">
-      <DependentUpon>frmIR.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LuceneAdvancedSearch.cs" />
-    <Compile Include="NewSimilarity.cs" />
+    <Compile Include="Controller\ConfigManipulator.cs" />
+    <Compile Include="Controller\CreateIndexController.cs" />
+    <Compile Include="Model\FileManipulator.cs" />
+    <Compile Include="Model\LuceneHelper.cs" />
+    <Compile Include="Controller\Program.cs" />
+    <Compile Include="Controller\SearchController.cs" />
+    <Compile Include="Model\LuceneAdvancedSearch.cs" />
+    <Compile Include="Model\RankedSEDocument.cs" />
+    <Compile Include="Model\SEDocument.cs" />
+    <Compile Include="Model\NewSimilarity.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
-    <Compile Include="PorterStemmer.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Controller\PorterStemmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryParser.cs" />
-    <EmbeddedResource Include="frmIR.resx">
+    <Compile Include="Controller\QueryParser.cs" />
+    <Compile Include="View\CreateIndexView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CreateIndexView.Designer.cs">
+      <DependentUpon>CreateIndexView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\frmIR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\frmIR.Designer.cs">
       <DependentUpon>frmIR.cs</DependentUpon>
-    </EmbeddedResource>
+    </Compile>
+    <Compile Include="View\SearchView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SearchView.Designer.cs">
+      <DependentUpon>SearchView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaterMarkTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -256,6 +274,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\CreateIndexView.resx">
+      <DependentUpon>CreateIndexView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\frmIR.resx">
+      <DependentUpon>frmIR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SearchView.resx">
+      <DependentUpon>SearchView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="SearchEngine.config" />
     <None Include="bin\Debug\TheApplication.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

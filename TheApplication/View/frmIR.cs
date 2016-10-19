@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TheApplication.Model;
 
 namespace TheApplication
 {
@@ -51,10 +52,10 @@ namespace TheApplication
         {
             DateTime start = System.DateTime.Now;
             //read all the files and load them into memory
-            List<Doc> AllDocs = LuceneAdvancedSearch.GetAllDocuments(documentFolderPath);
+            List<SEDocument> AllDocs = LuceneAdvancedSearch.GetAllDocuments(documentFolderPath);
 
             myLuceneApp.CreateIndex(indexFolderPath);
-            foreach (Doc doc in AllDocs)
+            foreach (SEDocument doc in AllDocs)
                 myLuceneApp.IndexDocument(doc);
             myLuceneApp.CleanUpIndexer();
             DateTime end = System.DateTime.Now;
@@ -67,9 +68,9 @@ namespace TheApplication
             grdResult.DataSource = Search(0);
         }
 
-        private List<Doc> Search(int pageNum)
+        private List<RankedSEDocument> Search(int pageNum)
         {
-            List<Doc> result = new List<Doc>();
+            List<RankedSEDocument> result = new List<RankedSEDocument>();
             myLuceneApp.CreateSearcher();
             string toSearch = string.Empty;
             if (chkAsIs.Checked)
@@ -111,7 +112,7 @@ namespace TheApplication
             string toSearch = string.Empty;
             toSearch = ParseInformationNeed(cmbInformationNeed.SelectedValue.ToString());
 
-            List<Doc> result = myLuceneApp.SearchText(toSearch, myParser.FindPhrases(cmbInformationNeed.SelectedValue.ToString()), false, 0);
+            List<RankedSEDocument> result = myLuceneApp.SearchText(toSearch, myParser.FindPhrases(cmbInformationNeed.SelectedValue.ToString()), false, 0);
             grdResult.DataSource = result;
 
             myLuceneApp.CleanUpSearcher();
