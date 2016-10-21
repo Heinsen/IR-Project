@@ -230,7 +230,9 @@
   <ItemGroup>
     <Compile Include="Controller\ConfigManipulator.cs" />
     <Compile Include="Controller\CreateIndexController.cs" />
+    <Compile Include="Controller\IQueryParser.cs" />
     <Compile Include="Model\FileManipulator.cs" />
+    <Compile Include="Model\ILuceneHelper.cs" />
     <Compile Include="Model\LuceneHelper.cs" />
     <Compile Include="Controller\Program.cs" />
     <Compile Include="Controller\SearchController.cs" />
@@ -283,7 +285,6 @@
     <EmbeddedResource Include="View\SearchView.resx">
       <DependentUpon>SearchView.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="SearchEngine.config" />
     <None Include="bin\Debug\TheApplication.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

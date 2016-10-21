@@ -19,7 +19,7 @@ namespace TheApplication.View
 
         private SearchController _SearchController;
 
-        public SearchView(LuceneHelper LuceneHelper)
+        public SearchView()
         {
             InitializeComponent();
         }
@@ -34,15 +34,13 @@ namespace TheApplication.View
             SearchCollectionButton.Enabled = false;
 
             _SearchCollectionDelegate = new SearchCollectionDelegate(_SearchController.SearchIndex);
-           // _SearchController.BeginInvoke()
-                
-                //({ QueryTextBox.Text, NoPreprocessingCheckBox.Checked }, this.SearchedCollection, null);
+            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, this.SearchedCollection, null);
+
+            //_SearchController.SearchIndex(QueryTextBox.Text, NoPreprocessingCheckBox.Checked);
         }
 
         private void SearchedCollection(IAsyncResult result)
         {
-            SearchCollectionButton.Enabled = true;
-
             if (this.InvokeRequired)
             {
                 try
@@ -57,17 +55,45 @@ namespace TheApplication.View
             }
             else
             {
+                SearchCollectionButton.Enabled = true;
+
                 List<RankedSEDocument> RankedSEDocuments;
 
                 try
                 {
                     RankedSEDocuments = _SearchCollectionDelegate.EndInvoke(result);
-                    RankedSEDocumentsDataGridView.DataSource = RankedSEDocuments;
+                    SetListViewData(RankedSEDocuments);
                 }
                 catch (Exception e)
                 {
                     //TODO: Show error
                 }                
+            }
+        }
+
+        private void SetListViewData(List<RankedSEDocument> RankedSEDocuments)
+        {
+            RankedSEDocumentsListView.View = System.Windows.Forms.View.Details;
+            RankedSEDocumentsListView.GridLines = true;
+            RankedSEDocumentsListView.FullRowSelect = true;
+
+            RankedSEDocumentsListView.Columns.Add("Rank", 35);
+            RankedSEDocumentsListView.Columns.Add("Title", 300);
+            RankedSEDocumentsListView.Columns.Add("Author", 150);
+            RankedSEDocumentsListView.Columns.Add("Bibliograpic information", 100);
+            RankedSEDocumentsListView.Columns.Add("Abstract", 400);
+
+            foreach(RankedSEDocument Document in RankedSEDocuments)
+            {
+                string[] arr = new string[5];
+
+                arr[0] = Document.Rank.ToString();
+                arr[1] = Document.Title;
+                arr[2] = Document.Author;
+                arr[3] = Document.Bibliographic;
+                arr[4] = Document.getAbstractFirstLine();
+                ListViewItem ListViewItem = new ListViewItem(arr);
+                RankedSEDocumentsListView.Items.Add(ListViewItem);
             }
         }
 

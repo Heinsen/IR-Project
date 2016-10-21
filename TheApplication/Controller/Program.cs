@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheApplication.Controller;
 using TheApplication.View;
+using TheApplication.Model;
 
 namespace TheApplication
 {
@@ -19,14 +20,14 @@ namespace TheApplication
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmIR());
-
-            //CreateIndexController CreateIndexController = new CreateIndexController();
-            //CreateIndexView CreateIndexView = new CreateIndexView();
-            //CreateIndexView.SetCreateIndexController(CreateIndexController);
-            //Application.Run(CreateIndexView);
+            //Giving CreateIndexController the chosen ILuceneHelperImplementation and IQueryParserImplemenation
+            LuceneHelper LuceneHelper = new LuceneHelper();
+            QueryParser QueryParser = new QueryParser();
+            
+            CreateIndexController CreateIndexController = new CreateIndexController(LuceneHelper, QueryParser);
+            CreateIndexView CreateIndexView = new CreateIndexView();
+            CreateIndexView.SetCreateIndexController(CreateIndexController);
+            Application.Run(CreateIndexView);
         }
     }
 }

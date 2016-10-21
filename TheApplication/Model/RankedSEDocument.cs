@@ -19,6 +19,11 @@ namespace TheApplication.Model
         {
         }
 
+        public string getAbstractFirstLine()
+        {
+            return (this.Abstract.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))[0];
+        }
+
         public int Rank { get; set; }
 
         public float RelevanceScore { get; set; }

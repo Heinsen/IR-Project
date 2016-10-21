@@ -14,18 +14,21 @@ namespace TheApplication.Controller
 {
     public class CreateIndexController
     {
-        LuceneHelper _LuceneHelper;
+        ILuceneHelper _ILuceneHelper;
+        IQueryParser _IQueryParser;
         List<SEDocument> _SourceCollection;
         
-        public CreateIndexController()
+        public CreateIndexController(ILuceneHelper ILuceneHelper, IQueryParser IQueryParser)
         {
+            this._ILuceneHelper = ILuceneHelper;
+            this._IQueryParser = IQueryParser;
         }
 
         public bool CreateIndex()
         {
             //TODO In case no Source Collection was found
             _SourceCollection = FileManipulator.SearchDirectory((string)Properties.Settings.Default["SourceCollectionPath"]);
-            _LuceneHelper = new LuceneHelper(_SourceCollection, (string)Properties.Settings.Default["IndexPath"]);
+            _ILuceneHelper.CreateIndex(_SourceCollection, (string)Properties.Settings.Default["IndexPath"]);
 
             return true;
         }
@@ -54,8 +57,8 @@ namespace TheApplication.Controller
 
         public void ConfirmIndex()
         {
-            SearchController SearchController = new SearchController(_LuceneHelper);
-            SearchView SearchView = new SearchView(_LuceneHelper);
+            SearchController SearchController = new SearchController(_ILuceneHelper, _IQueryParser);
+            SearchView SearchView = new SearchView();
             SearchView.SetSearchController(SearchController);
             SearchView.Show();
         }

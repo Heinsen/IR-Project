@@ -14,7 +14,7 @@ using Lucene.Net.Support; // for snowball analyser
 
 namespace TheApplication.Model
 {
-    public class LuceneHelper
+    public class LuceneHelper : ILuceneHelper
     {
         Directory _LuceneIndexDirectory;
         Analyzer _Analyzer;
@@ -33,11 +33,9 @@ namespace TheApplication.Model
         const string ABSTRACT_FN = "Abstract";
         static List<SEDocument> documentColl = new List<SEDocument>();
 
-        public LuceneHelper(List<SEDocument> SEDocuments, string IndexPath)
+        public LuceneHelper()
         {
-            _SourceCollection = SEDocuments;
             //_LuceneIndexDirectory
-
             _Analyzer = new Lucene.Net.Analysis.Standard.StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 
             String[] fields = new String[] { TITLE_FN, ABSTRACT_FN };
@@ -54,6 +52,11 @@ namespace TheApplication.Model
             //parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30, new string[] {TITLE_FN, ABSTRACT_FN}, analyzer);
 
             //newSimilarity = new NewSimilarity(); 
+        }
+
+        public void CreateIndex(List<SEDocument> SEDocuments, string IndexPath)
+        {
+            _SourceCollection = SEDocuments;
             CreateIndex(IndexPath);
             IndexDocuments();
             CleanUpIndexer();
@@ -97,11 +100,11 @@ namespace TheApplication.Model
         private void IndexDocument(SEDocument document)
         {
             Field documentIdField = new Field(DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
-            Field titleField = new Field(TITLE_FN, document.Title, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
+            Field titleField = new Field(TITLE_FN, document.Title, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES);
             titleField.Boost = _BoostValue;
-            Field authorField = new Field(AUTHOR_FN, document.Author, Field.Store.NO, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
-            Field bibliographicField = new Field(BIBLIOGRAPHIC_FN, document.Bibliographic, Field.Store.NO, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
-            Field abstractField = new Field(ABSTRACT_FN, document.Abstract, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
+            Field authorField = new Field(AUTHOR_FN, document.Author, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
+            Field bibliographicField = new Field(BIBLIOGRAPHIC_FN, document.Bibliographic, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
+            Field abstractField = new Field(ABSTRACT_FN, document.Abstract, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES);
             Document doc = new Document();
             doc.Add(documentIdField);
             doc.Add(titleField);

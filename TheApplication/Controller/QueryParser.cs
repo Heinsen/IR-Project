@@ -24,10 +24,11 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Net;
 using System.Xml;
+using TheApplication.Controller;
 
 namespace TheApplication
 {
-    public class QueryParser
+    public class QueryParser : IQueryParser
     {
         PorterStemmerAlgorithm.PorterStemmer myStemmer; 
         System.Collections.Generic.Dictionary<string, int> tokenCount; 
@@ -199,6 +200,9 @@ namespace TheApplication
 
         public List<string> FindPhrases(string str)
         {
+            str = str + string.Join(" ", FindPhrases(str));
+
+
             List<string> phraseList = new List<string>();
             foreach (Match match in Regex.Matches(str, "\"([^\"]*)\""))
                 phraseList.Add(match.ToString().Trim('"'));

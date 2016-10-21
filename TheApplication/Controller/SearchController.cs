@@ -9,28 +9,24 @@ namespace TheApplication.Controller
 {
     public class SearchController
     {
-        private LuceneHelper _LuceneHelper;
-        private QueryParser _QueryParser = new QueryParser();
+        private ILuceneHelper _ILuceneHelper;
+        private IQueryParser _IQueryParser;
         private List<RankedSEDocument> _RankedSEDocuments;
 
-        public SearchController(LuceneHelper LuceneHelper)
+        public SearchController(ILuceneHelper LuceneHelper, IQueryParser IQueryParser)
         {
-            _LuceneHelper = LuceneHelper;
-        }
-
-        private string Preprocess(string QueryString)
-        {
-            return _QueryParser.InformationNeedParser(QueryString) + string.Join(" ", _QueryParser.FindPhrases(QueryString));
+            _ILuceneHelper = LuceneHelper;
+            _IQueryParser = IQueryParser;
         }
 
         public List<RankedSEDocument> SearchIndex(string QueryString, bool Preprocess)
         {
             if(Preprocess)
             {
-                QueryString = this.Preprocess(QueryString);
+                QueryString = _IQueryParser.InformationNeedParser(QueryString);
             }
 
-            _RankedSEDocuments = _LuceneHelper.SearchText(QueryString);
+            _RankedSEDocuments = _ILuceneHelper.SearchText(QueryString);
 
             return _RankedSEDocuments;
         }

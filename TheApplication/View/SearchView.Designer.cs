@@ -36,10 +36,9 @@
             this.SearchResultPanel = new System.Windows.Forms.Panel();
             this.NextButton = new System.Windows.Forms.Button();
             this.PreviousButton = new System.Windows.Forms.Button();
-            this.RankedSEDocumentsDataGridView = new System.Windows.Forms.DataGridView();
+            this.RankedSEDocumentsListView = new System.Windows.Forms.ListView();
             this.SearchPanel.SuspendLayout();
             this.SearchResultPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RankedSEDocumentsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // SearchCollectionButton
@@ -77,6 +76,20 @@
             // 
             // QueryTextBox
             // 
+            this.QueryTextBox.AutoCompleteCustomSource.AddRange(new string[] {
+            "what \"similarity laws\" must be obeyed when constructing aeroelastic models of hea" +
+                "ted high speed aircraft",
+            "what are the structural and aeroelastic problems associated with flight of high s" +
+                "peed aircraft",
+            "how can the aerodynamic performance of channel flow ground effect machines be cal" +
+                "culated",
+            "in summarizing theoretical and experimental work on the behaviour of a typical ai" +
+                "rcraft structure in a noise environment is it possible to develop a design proce" +
+                "dure",
+            "has anyone developed an analysis which accurately establishes the large deflectio" +
+                "n behaviour of \"conical shells\""});
+            this.QueryTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.QueryTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.QueryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.QueryTextBox.Location = new System.Drawing.Point(117, 36);
             this.QueryTextBox.Name = "QueryTextBox";
@@ -97,12 +110,12 @@
             // SearchResultPanel
             // 
             this.SearchResultPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.SearchResultPanel.Controls.Add(this.RankedSEDocumentsDataGridView);
+            this.SearchResultPanel.Controls.Add(this.RankedSEDocumentsListView);
             this.SearchResultPanel.Controls.Add(this.NextButton);
             this.SearchResultPanel.Controls.Add(this.PreviousButton);
-            this.SearchResultPanel.Location = new System.Drawing.Point(117, 184);
+            this.SearchResultPanel.Location = new System.Drawing.Point(12, 184);
             this.SearchResultPanel.Name = "SearchResultPanel";
-            this.SearchResultPanel.Size = new System.Drawing.Size(681, 619);
+            this.SearchResultPanel.Size = new System.Drawing.Size(910, 619);
             this.SearchResultPanel.TabIndex = 5;
             // 
             // NextButton
@@ -123,14 +136,13 @@
             this.PreviousButton.Text = "Previous";
             this.PreviousButton.UseVisualStyleBackColor = true;
             // 
-            // RankedSEDocumentsDataGridView
+            // RankedSEDocumentsListView
             // 
-            this.RankedSEDocumentsDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.RankedSEDocumentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.RankedSEDocumentsDataGridView.Location = new System.Drawing.Point(33, 21);
-            this.RankedSEDocumentsDataGridView.Name = "RankedSEDocumentsDataGridView";
-            this.RankedSEDocumentsDataGridView.Size = new System.Drawing.Size(617, 516);
-            this.RankedSEDocumentsDataGridView.TabIndex = 7;
+            this.RankedSEDocumentsListView.Location = new System.Drawing.Point(3, 6);
+            this.RankedSEDocumentsListView.Name = "RankedSEDocumentsListView";
+            this.RankedSEDocumentsListView.Size = new System.Drawing.Size(902, 531);
+            this.RankedSEDocumentsListView.TabIndex = 8;
+            this.RankedSEDocumentsListView.UseCompatibleStateImageBehavior = false;
             // 
             // SearchView
             // 
@@ -145,7 +157,6 @@
             this.SearchPanel.ResumeLayout(false);
             this.SearchPanel.PerformLayout();
             this.SearchResultPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RankedSEDocumentsDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -160,6 +171,6 @@
         private System.Windows.Forms.Panel SearchResultPanel;
         private System.Windows.Forms.Button NextButton;
         private System.Windows.Forms.Button PreviousButton;
-        private System.Windows.Forms.DataGridView RankedSEDocumentsDataGridView;
+        private System.Windows.Forms.ListView RankedSEDocumentsListView;
     }
 }
