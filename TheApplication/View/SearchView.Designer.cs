@@ -34,9 +34,9 @@
             this.QueryTextBox = new TheApplication.View.WaterMarkTextBox();
             this.SaveSearchResultButton = new System.Windows.Forms.Button();
             this.SearchResultPanel = new System.Windows.Forms.Panel();
+            this.RankedSEDocumentsListView = new System.Windows.Forms.ListView();
             this.NextButton = new System.Windows.Forms.Button();
             this.PreviousButton = new System.Windows.Forms.Button();
-            this.RankedSEDocumentsListView = new System.Windows.Forms.ListView();
             this.SearchPanel.SuspendLayout();
             this.SearchResultPanel.SuspendLayout();
             this.SuspendLayout();
@@ -106,6 +106,7 @@
             this.SaveSearchResultButton.TabIndex = 3;
             this.SaveSearchResultButton.Text = "Save result";
             this.SaveSearchResultButton.UseVisualStyleBackColor = true;
+            this.SaveSearchResultButton.Click += new System.EventHandler(this.SaveSearchResultButton_Click);
             // 
             // SearchResultPanel
             // 
@@ -117,6 +118,14 @@
             this.SearchResultPanel.Name = "SearchResultPanel";
             this.SearchResultPanel.Size = new System.Drawing.Size(910, 619);
             this.SearchResultPanel.TabIndex = 5;
+            // 
+            // RankedSEDocumentsListView
+            // 
+            this.RankedSEDocumentsListView.Location = new System.Drawing.Point(3, 6);
+            this.RankedSEDocumentsListView.Name = "RankedSEDocumentsListView";
+            this.RankedSEDocumentsListView.Size = new System.Drawing.Size(902, 531);
+            this.RankedSEDocumentsListView.TabIndex = 8;
+            this.RankedSEDocumentsListView.UseCompatibleStateImageBehavior = false;
             // 
             // NextButton
             // 
@@ -135,14 +144,6 @@
             this.PreviousButton.TabIndex = 5;
             this.PreviousButton.Text = "Previous";
             this.PreviousButton.UseVisualStyleBackColor = true;
-            // 
-            // RankedSEDocumentsListView
-            // 
-            this.RankedSEDocumentsListView.Location = new System.Drawing.Point(3, 6);
-            this.RankedSEDocumentsListView.Name = "RankedSEDocumentsListView";
-            this.RankedSEDocumentsListView.Size = new System.Drawing.Size(902, 531);
-            this.RankedSEDocumentsListView.TabIndex = 8;
-            this.RankedSEDocumentsListView.UseCompatibleStateImageBehavior = false;
             // 
             // SearchView
             // 

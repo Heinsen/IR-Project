@@ -110,6 +110,10 @@ namespace TheApplication.View
             return infList;
         }
 
+        private void SaveSearchResultButton_Click(object sender, EventArgs e)
+        {
+            _SearchController.SaveRankedDocuments();
 
+        }
     }
 }

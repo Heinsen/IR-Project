@@ -24,6 +24,11 @@ namespace TheApplication.Model
             return (this.Abstract.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))[0];
         }
 
+        public string getDocumentSaveString()
+        {
+            return ID + " " + (Rank.ToString()) + " "  + RelevanceScore.ToString() + " ";
+        }
+
         public int Rank { get; set; }
 
         public float RelevanceScore { get; set; }

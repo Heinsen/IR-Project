@@ -39,7 +39,13 @@ namespace TheApplication.Model
                         using (FileStream FileStream = File.Open(pathString, FileMode.Open))
                         {
                             StreamReader StreamReader = new StreamReader(FileStream);
-                            FileContent = StreamReader.ReadToEnd() + FileContent;
+                            FileContent = StreamReader.ReadToEnd() + Environment.NewLine + FileContent;
+
+                            StreamWriter StreamWriter = new StreamWriter(FileStream);
+                            StreamWriter.Write(FileContent);
+
+                            StreamWriter.Flush();
+                            FileStream.Flush();
                         }
                     }
                     catch (Exception e)
@@ -55,6 +61,8 @@ namespace TheApplication.Model
                         {
                             StreamWriter StreamWriter = new StreamWriter(FileStream);
                             StreamWriter.Write(FileContent);
+                            StreamWriter.Flush();
+                            FileStream.Flush();
                         }
                     }
                     catch (Exception e)
@@ -69,6 +77,8 @@ namespace TheApplication.Model
                 using (FileStream FileStream = File.Create(pathString)) {
                     StreamWriter StreamWriter = new StreamWriter(FileStream);
                     StreamWriter.Write(FileContent);
+                    StreamWriter.Flush();
+                    FileStream.Flush();
                 }
             }
 

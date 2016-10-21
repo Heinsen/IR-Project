@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheApplication.Model;
+using TheApplication.View;
 
 namespace TheApplication.Controller
 {
@@ -33,7 +34,12 @@ namespace TheApplication.Controller
 
         public void SaveRankedDocuments()
         {
+            SaveController _SaveController = new SaveController(0, _RankedSEDocuments);
+            SaveView _SaveView = new SaveView();
 
+            _SaveView.SetSaveController(_SaveController);
+
+            _SaveView.Show();
         }
     }
 }

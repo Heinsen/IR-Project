@@ -46,5 +46,29 @@ namespace TheApplication.Properties {
                 this["IndexPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SavePath {
+            get {
+                return ((string)(this["SavePath"]));
+            }
+            set {
+                this["SavePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SaveFileName {
+            get {
+                return ((string)(this["SaveFileName"]));
+            }
+            set {
+                this["SaveFileName"] = value;
+            }
+        }
     }
 }

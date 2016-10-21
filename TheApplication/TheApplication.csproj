@@ -231,6 +231,7 @@
     <Compile Include="Controller\ConfigManipulator.cs" />
     <Compile Include="Controller\CreateIndexController.cs" />
     <Compile Include="Controller\IQueryParser.cs" />
+    <Compile Include="Controller\SaveController.cs" />
     <Compile Include="Model\FileManipulator.cs" />
     <Compile Include="Model\ILuceneHelper.cs" />
     <Compile Include="Model\LuceneHelper.cs" />
@@ -258,6 +259,12 @@
     <Compile Include="View\frmIR.Designer.cs">
       <DependentUpon>frmIR.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\SaveView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SaveView.Designer.cs">
+      <DependentUpon>SaveView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\SearchView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -281,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\frmIR.resx">
       <DependentUpon>frmIR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SaveView.resx">
+      <DependentUpon>SaveView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SearchView.resx">
       <DependentUpon>SearchView.cs</DependentUpon>
