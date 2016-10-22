@@ -31,19 +31,26 @@
             this.SearchCollectionButton = new System.Windows.Forms.Button();
             this.NoPreprocessingCheckBox = new System.Windows.Forms.CheckBox();
             this.SearchPanel = new System.Windows.Forms.Panel();
-            this.QueryTextBox = new TheApplication.View.WaterMarkTextBox();
             this.SaveSearchResultButton = new System.Windows.Forms.Button();
             this.SearchResultPanel = new System.Windows.Forms.Panel();
-            this.RankedSEDocumentsListView = new System.Windows.Forms.ListView();
+            this.ObjectListView = new BrightIdeasSoftware.ObjectListView();
+            this.Rank = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.Title = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.Bibliographic = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.NextButton = new System.Windows.Forms.Button();
             this.PreviousButton = new System.Windows.Forms.Button();
+            this.StatusStrip = new System.Windows.Forms.StatusStrip();
+            this.StripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.QueryTextBox = new TheApplication.View.WaterMarkTextBox();
             this.SearchPanel.SuspendLayout();
             this.SearchResultPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectListView)).BeginInit();
+            this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // SearchCollectionButton
             // 
-            this.SearchCollectionButton.Location = new System.Drawing.Point(663, 30);
+            this.SearchCollectionButton.Location = new System.Drawing.Point(663, 13);
             this.SearchCollectionButton.Name = "SearchCollectionButton";
             this.SearchCollectionButton.Size = new System.Drawing.Size(135, 41);
             this.SearchCollectionButton.TabIndex = 1;
@@ -55,7 +62,7 @@
             // 
             this.NoPreprocessingCheckBox.AutoSize = true;
             this.NoPreprocessingCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NoPreprocessingCheckBox.Location = new System.Drawing.Point(117, 83);
+            this.NoPreprocessingCheckBox.Location = new System.Drawing.Point(117, 57);
             this.NoPreprocessingCheckBox.Name = "NoPreprocessingCheckBox";
             this.NoPreprocessingCheckBox.Size = new System.Drawing.Size(196, 20);
             this.NoPreprocessingCheckBox.TabIndex = 2;
@@ -69,10 +76,126 @@
             this.SearchPanel.Controls.Add(this.QueryTextBox);
             this.SearchPanel.Controls.Add(this.NoPreprocessingCheckBox);
             this.SearchPanel.Controls.Add(this.SearchCollectionButton);
-            this.SearchPanel.Location = new System.Drawing.Point(-1, 35);
+            this.SearchPanel.Location = new System.Drawing.Point(-1, 12);
             this.SearchPanel.Name = "SearchPanel";
-            this.SearchPanel.Size = new System.Drawing.Size(950, 150);
+            this.SearchPanel.Size = new System.Drawing.Size(1164, 106);
             this.SearchPanel.TabIndex = 3;
+            // 
+            // SaveSearchResultButton
+            // 
+            this.SaveSearchResultButton.Location = new System.Drawing.Point(321, 814);
+            this.SaveSearchResultButton.Name = "SaveSearchResultButton";
+            this.SaveSearchResultButton.Size = new System.Drawing.Size(512, 41);
+            this.SaveSearchResultButton.TabIndex = 3;
+            this.SaveSearchResultButton.Text = "Save result";
+            this.SaveSearchResultButton.UseVisualStyleBackColor = true;
+            this.SaveSearchResultButton.Click += new System.EventHandler(this.SaveSearchResultButton_Click);
+            // 
+            // SearchResultPanel
+            // 
+            this.SearchResultPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SearchResultPanel.Controls.Add(this.ObjectListView);
+            this.SearchResultPanel.Controls.Add(this.NextButton);
+            this.SearchResultPanel.Controls.Add(this.PreviousButton);
+            this.SearchResultPanel.Location = new System.Drawing.Point(12, 124);
+            this.SearchResultPanel.Name = "SearchResultPanel";
+            this.SearchResultPanel.Size = new System.Drawing.Size(1132, 679);
+            this.SearchResultPanel.TabIndex = 5;
+            // 
+            // ObjectListView
+            // 
+            this.ObjectListView.AllColumns.Add(this.Rank);
+            this.ObjectListView.AllColumns.Add(this.Title);
+            this.ObjectListView.AllColumns.Add(this.Bibliographic);
+            this.ObjectListView.CellEditUseWholeCell = false;
+            this.ObjectListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Rank,
+            this.Title,
+            this.Bibliographic});
+            this.ObjectListView.Cursor = System.Windows.Forms.Cursors.Default;
+            this.ObjectListView.EmptyListMsg = "Search the collection and the results will appear here";
+            this.ObjectListView.EmptyListMsgFont = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.ObjectListView.FullRowSelect = true;
+            this.ObjectListView.HasCollapsibleGroups = false;
+            this.ObjectListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.ObjectListView.Location = new System.Drawing.Point(12, 3);
+            this.ObjectListView.MultiSelect = false;
+            this.ObjectListView.Name = "ObjectListView";
+            this.ObjectListView.RowHeight = 60;
+            this.ObjectListView.SelectColumnsOnRightClick = false;
+            this.ObjectListView.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.None;
+            this.ObjectListView.ShowGroups = false;
+            this.ObjectListView.ShowHeaderInAllViews = false;
+            this.ObjectListView.ShowSortIndicators = false;
+            this.ObjectListView.Size = new System.Drawing.Size(1103, 624);
+            this.ObjectListView.TabIndex = 9;
+            this.ObjectListView.TabStop = false;
+            this.ObjectListView.UseCompatibleStateImageBehavior = false;
+            this.ObjectListView.View = System.Windows.Forms.View.Details;
+            // 
+            // Rank
+            // 
+            this.Rank.AspectName = "Rank";
+            this.Rank.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.FixedBounds;
+            this.Rank.MaximumWidth = 42;
+            this.Rank.MinimumWidth = 42;
+            this.Rank.Text = "Rank";
+            this.Rank.Width = 42;
+            // 
+            // Title
+            // 
+            this.Title.AspectName = "Title";
+            this.Title.IsTileViewColumn = true;
+            this.Title.MaximumWidth = 820;
+            this.Title.MinimumWidth = 820;
+            this.Title.Text = "Title";
+            this.Title.Width = 820;
+            // 
+            // Bibliographic
+            // 
+            this.Bibliographic.AspectName = "Bibliographic";
+            this.Bibliographic.MaximumWidth = 200;
+            this.Bibliographic.MinimumWidth = 200;
+            this.Bibliographic.Text = "Bibliographic";
+            this.Bibliographic.Width = 200;
+            this.Bibliographic.WordWrap = true;
+            // 
+            // NextButton
+            // 
+            this.NextButton.Location = new System.Drawing.Point(567, 633);
+            this.NextButton.Name = "NextButton";
+            this.NextButton.Size = new System.Drawing.Size(253, 41);
+            this.NextButton.TabIndex = 6;
+            this.NextButton.Text = "Next";
+            this.NextButton.UseVisualStyleBackColor = true;
+            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
+            // 
+            // PreviousButton
+            // 
+            this.PreviousButton.Location = new System.Drawing.Point(308, 633);
+            this.PreviousButton.Name = "PreviousButton";
+            this.PreviousButton.Size = new System.Drawing.Size(253, 41);
+            this.PreviousButton.TabIndex = 5;
+            this.PreviousButton.Text = "Previous";
+            this.PreviousButton.UseVisualStyleBackColor = true;
+            this.PreviousButton.Click += new System.EventHandler(this.PreviousButton_Click);
+            // 
+            // StatusStrip
+            // 
+            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StripStatusLabel});
+            this.StatusStrip.Location = new System.Drawing.Point(0, 858);
+            this.StatusStrip.Name = "StatusStrip";
+            this.StatusStrip.Size = new System.Drawing.Size(1156, 22);
+            this.StatusStrip.TabIndex = 1;
+            this.StatusStrip.Text = "Search";
+            // 
+            // StripStatusLabel
+            // 
+            this.StripStatusLabel.Name = "StripStatusLabel";
+            this.StripStatusLabel.Size = new System.Drawing.Size(246, 17);
+            this.StripStatusLabel.Text = "Search the collection through the search field";
+            this.StripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // QueryTextBox
             // 
@@ -91,65 +214,19 @@
             this.QueryTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.QueryTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.QueryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.QueryTextBox.Location = new System.Drawing.Point(117, 36);
+            this.QueryTextBox.Location = new System.Drawing.Point(117, 19);
             this.QueryTextBox.Name = "QueryTextBox";
             this.QueryTextBox.Size = new System.Drawing.Size(483, 26);
             this.QueryTextBox.TabIndex = 0;
             this.QueryTextBox.WaterMarkColor = System.Drawing.Color.Gray;
-            this.QueryTextBox.WaterMarkText = "Put in your query";
-            // 
-            // SaveSearchResultButton
-            // 
-            this.SaveSearchResultButton.Location = new System.Drawing.Point(325, 809);
-            this.SaveSearchResultButton.Name = "SaveSearchResultButton";
-            this.SaveSearchResultButton.Size = new System.Drawing.Size(288, 41);
-            this.SaveSearchResultButton.TabIndex = 3;
-            this.SaveSearchResultButton.Text = "Save result";
-            this.SaveSearchResultButton.UseVisualStyleBackColor = true;
-            this.SaveSearchResultButton.Click += new System.EventHandler(this.SaveSearchResultButton_Click);
-            // 
-            // SearchResultPanel
-            // 
-            this.SearchResultPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.SearchResultPanel.Controls.Add(this.RankedSEDocumentsListView);
-            this.SearchResultPanel.Controls.Add(this.NextButton);
-            this.SearchResultPanel.Controls.Add(this.PreviousButton);
-            this.SearchResultPanel.Location = new System.Drawing.Point(12, 184);
-            this.SearchResultPanel.Name = "SearchResultPanel";
-            this.SearchResultPanel.Size = new System.Drawing.Size(910, 619);
-            this.SearchResultPanel.TabIndex = 5;
-            // 
-            // RankedSEDocumentsListView
-            // 
-            this.RankedSEDocumentsListView.Location = new System.Drawing.Point(3, 6);
-            this.RankedSEDocumentsListView.Name = "RankedSEDocumentsListView";
-            this.RankedSEDocumentsListView.Size = new System.Drawing.Size(902, 531);
-            this.RankedSEDocumentsListView.TabIndex = 8;
-            this.RankedSEDocumentsListView.UseCompatibleStateImageBehavior = false;
-            // 
-            // NextButton
-            // 
-            this.NextButton.Location = new System.Drawing.Point(425, 556);
-            this.NextButton.Name = "NextButton";
-            this.NextButton.Size = new System.Drawing.Size(135, 41);
-            this.NextButton.TabIndex = 6;
-            this.NextButton.Text = "Next";
-            this.NextButton.UseVisualStyleBackColor = true;
-            // 
-            // PreviousButton
-            // 
-            this.PreviousButton.Location = new System.Drawing.Point(142, 556);
-            this.PreviousButton.Name = "PreviousButton";
-            this.PreviousButton.Size = new System.Drawing.Size(135, 41);
-            this.PreviousButton.TabIndex = 5;
-            this.PreviousButton.Text = "Previous";
-            this.PreviousButton.UseVisualStyleBackColor = true;
+            this.QueryTextBox.WaterMarkText = "Search";
             // 
             // SearchView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 862);
+            this.ClientSize = new System.Drawing.Size(1156, 880);
+            this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.SearchResultPanel);
             this.Controls.Add(this.SaveSearchResultButton);
             this.Controls.Add(this.SearchPanel);
@@ -158,7 +235,11 @@
             this.SearchPanel.ResumeLayout(false);
             this.SearchPanel.PerformLayout();
             this.SearchResultPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectListView)).EndInit();
+            this.StatusStrip.ResumeLayout(false);
+            this.StatusStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -172,6 +253,11 @@
         private System.Windows.Forms.Panel SearchResultPanel;
         private System.Windows.Forms.Button NextButton;
         private System.Windows.Forms.Button PreviousButton;
-        private System.Windows.Forms.ListView RankedSEDocumentsListView;
+        private System.Windows.Forms.StatusStrip StatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel StripStatusLabel;
+        private BrightIdeasSoftware.ObjectListView ObjectListView;
+        private BrightIdeasSoftware.OLVColumn Rank;
+        private BrightIdeasSoftware.OLVColumn Title;
+        private BrightIdeasSoftware.OLVColumn Bibliographic;
     }
 }

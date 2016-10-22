@@ -426,6 +426,10 @@
     <Content Include="XMLFile1.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ObjectListView\ObjectListView\ObjectListView2012.csproj">
+      <Project>{18feda0c-d147-4286-b39a-01204808106a}</Project>
+      <Name>ObjectListView2012</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WordNet\WordNet.csproj">
       <Project>{f4c6c48c-90ef-445d-b8f8-ad9b6767d9a8}</Project>
       <Name>WordNet</Name>
