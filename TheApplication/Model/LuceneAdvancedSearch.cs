@@ -37,7 +37,7 @@ namespace TheApplication
         {
             luceneIndexDirectory = null;
             writer = null;
-            analyzer = new Lucene.Net.Analysis.Standard.StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            analyzer = new Lucene.Net.Analysis.Snowball.SnowballAnalyzer(Lucene.Net.Util.Version.LUCENE_30, "English");
         }
 
         /// <summary>

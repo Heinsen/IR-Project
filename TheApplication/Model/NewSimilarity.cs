@@ -13,6 +13,11 @@ namespace TheApplication
             return 1;
         }
 
+        public override float Coord(int overlap, int maxoverlap)
+        {
+            return 1;
+        }
+
     }
 
 }

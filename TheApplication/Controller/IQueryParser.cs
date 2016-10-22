@@ -9,5 +9,7 @@ namespace TheApplication.Controller
     public interface IQueryParser
     {
         string InformationNeedParser(string userQuery);
+
+        List<string> FindPhrase(string userQuery);
     }
 }

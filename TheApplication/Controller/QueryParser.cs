@@ -52,6 +52,18 @@ namespace TheApplication
             return text.ToLower().Split(splitters, StringSplitOptions.RemoveEmptyEntries);
         }
 
+        /// <summary>
+        /// Find phrases in a sentence
+        /// </summary>
+        /// <param name="text">Some text</param>
+        /// <returns>Phrase List</returns>
+        public List<string> FindPhrase(string userQuery)
+        {
+            List<string> phraseList = new List<string>();
+            foreach (Match match in Regex.Matches(userQuery, "\"([^\"]*)\""))
+                phraseList.Add(match.ToString().Trim('"'));
+            return phraseList;
+        }
 
         /// <summary>
         /// Stems an array of tokens
@@ -197,17 +209,6 @@ namespace TheApplication
             POSList.Add("JJ", WordNetEngine.POS.Adjective);
             return POSList;
         }
-
-        public List<string> FindPhrases(string str)
-        {
-            str = str + string.Join(" ", FindPhrases(str));
-
-
-            List<string> phraseList = new List<string>();
-            foreach (Match match in Regex.Matches(str, "\"([^\"]*)\""))
-                phraseList.Add(match.ToString().Trim('"'));
-            return phraseList;
-        }
           
         /// <summary>
         /// Counts the occurrences of stems in a given text file ignoring stop words and prints out the results to the screen
@@ -266,6 +267,8 @@ namespace TheApplication
             }
             return posSentence;
         }
+
+
 
 
     }

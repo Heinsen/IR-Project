@@ -10,7 +10,7 @@ namespace TheApplication.Model
     {
         void CreateIndex(List<SEDocument> SEDocuments, string IndexPath);
 
-        List<RankedSEDocument> SearchText(string QueryString);
+        List<RankedSEDocument> SearchText(string QueryString, List<string> phraseList, List<SEDocument> _SourceCollection, bool asis, int page);
 
     }
 }

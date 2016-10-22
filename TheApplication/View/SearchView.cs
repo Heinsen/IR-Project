@@ -14,10 +14,11 @@ namespace TheApplication.View
 {
     public partial class SearchView : Form
     {
-        public delegate List<RankedSEDocument> SearchCollectionDelegate(string QueryString, bool Preprocess);
+        public delegate List<RankedSEDocument> SearchCollectionDelegate(string QueryString, bool Preprocess, int pageNum);
         SearchCollectionDelegate _SearchCollectionDelegate;
 
         private SearchController _SearchController;
+        private int _PageNum;
 
         public SearchView()
         {
@@ -27,16 +28,22 @@ namespace TheApplication.View
         public void SetSearchController(SearchController SearchController)
         {
             _SearchController = SearchController;
+            _PageNum = 0;
         }
 
         private void SearchCollectionButton_Click(object sender, EventArgs e)
         {
+            Search(0);
+
+            //_SearchController.SearchIndex(QueryTextBox.Text, NoPreprocessingCheckBox.Checked);
+        }
+
+        private void Search(int pageNum)
+        {
             SearchCollectionButton.Enabled = false;
 
             _SearchCollectionDelegate = new SearchCollectionDelegate(_SearchController.SearchIndex);
-            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, this.SearchedCollection, null);
-
-            //_SearchController.SearchIndex(QueryTextBox.Text, NoPreprocessingCheckBox.Checked);
+            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, _PageNum, this.SearchedCollection, null);
         }
 
         private void SearchedCollection(IAsyncResult result)
@@ -73,6 +80,7 @@ namespace TheApplication.View
 
         private void SetListViewData(List<RankedSEDocument> RankedSEDocuments)
         {
+            RankedSEDocumentsListView.Items.Clear();
             RankedSEDocumentsListView.View = System.Windows.Forms.View.Details;
             RankedSEDocumentsListView.GridLines = true;
             RankedSEDocumentsListView.FullRowSelect = true;
@@ -114,6 +122,19 @@ namespace TheApplication.View
         {
             _SearchController.SaveRankedDocuments();
 
+        }
+
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            Search(_PageNum++);
+        }
+
+        private void PreviousButton_Click(object sender, EventArgs e)
+        {
+            if (_PageNum >= 1)
+            {
+                Search(_PageNum--);
+            }
         }
     }
 }

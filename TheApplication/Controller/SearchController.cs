@@ -13,21 +13,23 @@ namespace TheApplication.Controller
         private ILuceneHelper _ILuceneHelper;
         private IQueryParser _IQueryParser;
         private List<RankedSEDocument> _RankedSEDocuments;
+        private List<SEDocument> _SourceCollection;
 
-        public SearchController(ILuceneHelper LuceneHelper, IQueryParser IQueryParser)
+        public SearchController(ILuceneHelper LuceneHelper, IQueryParser IQueryParser, List<SEDocument> _Source)
         {
             _ILuceneHelper = LuceneHelper;
             _IQueryParser = IQueryParser;
+            _SourceCollection = _Source;
         }
 
-        public List<RankedSEDocument> SearchIndex(string QueryString, bool Preprocess)
+        public List<RankedSEDocument> SearchIndex(string QueryString, bool Preprocess, int pageNumber)
         {
             if(Preprocess)
             {
                 QueryString = _IQueryParser.InformationNeedParser(QueryString);
             }
 
-            _RankedSEDocuments = _ILuceneHelper.SearchText(QueryString);
+            _RankedSEDocuments = _ILuceneHelper.SearchText(QueryString, _IQueryParser.FindPhrase(QueryString),_SourceCollection, Preprocess, pageNumber);
 
             return _RankedSEDocuments;
         }

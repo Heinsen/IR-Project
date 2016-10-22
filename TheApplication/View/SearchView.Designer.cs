@@ -135,6 +135,7 @@
             this.NextButton.TabIndex = 6;
             this.NextButton.Text = "Next";
             this.NextButton.UseVisualStyleBackColor = true;
+            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
             // 
             // PreviousButton
             // 
@@ -144,6 +145,7 @@
             this.PreviousButton.TabIndex = 5;
             this.PreviousButton.Text = "Previous";
             this.PreviousButton.UseVisualStyleBackColor = true;
+            this.PreviousButton.Click += new System.EventHandler(this.PreviousButton_Click);
             // 
             // SearchView
             // 

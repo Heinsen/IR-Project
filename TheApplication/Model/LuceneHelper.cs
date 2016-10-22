@@ -35,23 +35,9 @@ namespace TheApplication.Model
 
         public LuceneHelper()
         {
-            //_LuceneIndexDirectory
-            _Analyzer = new Lucene.Net.Analysis.Standard.StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-
-            String[] fields = new String[] { TITLE_FN, ABSTRACT_FN };
-            IDictionary<String, float> boosts = new Dictionary<String, float>();
-            boosts.Add(TITLE_FN, _BoostValue);
-            _MultiFieldQueryParser = new MultiFieldQueryParser(
-                Lucene.Net.Util.Version.LUCENE_30,
-                fields,
-                _Analyzer
-            //,
-            //boosts
-            );
-
-            //parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30, new string[] {TITLE_FN, ABSTRACT_FN}, analyzer);
-
-            //newSimilarity = new NewSimilarity(); 
+            _LuceneIndexDirectory = null;
+            _IndexWriter = null;
+            _Analyzer = new Lucene.Net.Analysis.Snowball.SnowballAnalyzer(VERSION, "English");
         }
 
         public void CreateIndex(List<SEDocument> SEDocuments, string IndexPath)
@@ -61,6 +47,31 @@ namespace TheApplication.Model
             IndexDocuments();
             CleanUpIndexer();
             CreateSearcher();
+        }
+
+        public void InitializeMultiFieldQueryParser(bool asis)
+        {
+            String[] fields = new String[] { TITLE_FN, ABSTRACT_FN };
+            if (asis)
+            {
+                _MultiFieldQueryParser = new MultiFieldQueryParser(
+                        Lucene.Net.Util.Version.LUCENE_30, fields,
+                        _Analyzer);
+            }
+            else
+            {
+                HashMap<string, float> boosts = new HashMap<string, float>();
+                boosts.Add(TITLE_FN, (float)10);
+                boosts.Add(ABSTRACT_FN, (float)5);
+
+                _MultiFieldQueryParser = new MultiFieldQueryParser(
+                Lucene.Net.Util.Version.LUCENE_30, fields,
+                _Analyzer
+                , boosts);
+
+                //newSimilarity = new NewSimilarity();
+            }
+            _MultiFieldQueryParser.DefaultOperator = MultiFieldQueryParser.OR_OPERATOR;
         }
 
         private void IndexDocuments()
@@ -99,17 +110,13 @@ namespace TheApplication.Model
         /// <param name="text">The text to index</param>
         private void IndexDocument(SEDocument document)
         {
-            Field documentIdField = new Field(DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
-            Field titleField = new Field(TITLE_FN, document.Title, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES);
+            Lucene.Net.Documents.Field documentIdField = new Field(DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
+            Lucene.Net.Documents.Field titleField = new Field(TITLE_FN, document.Title, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
             titleField.Boost = _BoostValue;
-            Field authorField = new Field(AUTHOR_FN, document.Author, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
-            Field bibliographicField = new Field(BIBLIOGRAPHIC_FN, document.Bibliographic, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
-            Field abstractField = new Field(ABSTRACT_FN, document.Abstract, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES);
-            Document doc = new Document();
+            Lucene.Net.Documents.Field abstractField = new Field(ABSTRACT_FN, document.Abstract, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
+            Lucene.Net.Documents.Document doc = new Document();
             doc.Add(documentIdField);
             doc.Add(titleField);
-            doc.Add(authorField);
-            doc.Add(bibliographicField);
             doc.Add(abstractField);
             _IndexWriter.AddDocument(doc);
         }
@@ -123,33 +130,73 @@ namespace TheApplication.Model
             _IndexWriter.Flush(true, true, true);
             _IndexWriter.Dispose();
         }
-        
-        public List<RankedSEDocument> SearchText(string QueryString)
+
+        public List<RankedSEDocument> SearchText(string QueryString, List<string> phraseList, List<SEDocument> _SourceCollection, bool asis, int page)
         {
+
             List<RankedSEDocument> RankedSEDocuments = new List<RankedSEDocument>();
             if (!string.IsNullOrEmpty(QueryString))
             {
-                //Should we do ToLower in the QueryParser instead?
-                QueryString = QueryString.ToLower();
-                Query query = _MultiFieldQueryParser.Parse(QueryString);
+                InitializeMultiFieldQueryParser(asis);
 
-                TopDocs results = _IndexSearcher.Search(query, 100);
-                int rank = 1;
-                foreach (ScoreDoc scoreDoc in results.ScoreDocs)
+                BooleanQuery finalQuery = new BooleanQuery();
+                if (asis)
                 {
-                    Document CurrentDocument = _IndexSearcher.Doc(scoreDoc.Doc);
-                    RankedSEDocuments.Add(new RankedSEDocument(CurrentDocument.Get(DOCUMENTID_FN).ToString(),
-                        CurrentDocument.Get(TITLE_FN).ToString(),
-                        CurrentDocument.Get(AUTHOR_FN).ToString(),
-                        CurrentDocument.Get(BIBLIOGRAPHIC_FN).ToString(),
-                        CurrentDocument.Get(ABSTRACT_FN).ToString(), 
-                        rank,
-                        0));
+                    finalQuery.Add(_MultiFieldQueryParser.Parse(QueryString), Occur.SHOULD);
+                }
+                else
+                {
+                    //querytext = querytext.ToLower();
+                    QueryParser myQueryParser = new QueryParser();
+                    finalQuery.Add(_MultiFieldQueryParser.Parse(QueryString.Replace('\"', ' ')), Occur.SHOULD);
+                    string[] tokens = myQueryParser.TokeniseString(QueryString.Replace('\"', ' ').Replace('[', ' ').Replace(']', ' '));
+                    //foreach (string term in tokens)
+                    //{
+                    //    finalQuery.Add(mfqp.Parse(term), Occur.SHOULD);
+                    //}
+                    //finalQuery.MinimumNumberShouldMatch = (int)(tokens.Count() / 2);
 
-                    rank++;
+                    foreach (string phrase in phraseList)
+                    {
+                        finalQuery.Add(_MultiFieldQueryParser.Parse("\"" + phrase + "\"" + "^20"), Occur.SHOULD);
+                        _MultiFieldQueryParser.PhraseSlop = 2;
+                        //string[] phraseParts = phrase.Split(' ');
+                        //phraseQuery = new PhraseQuery();
+                        //foreach (string p in phraseParts)
+                        //{
+                        //    phraseQuery.Add(new Term(ABSTRACT_FN, p));
+                        //}
+                        //phraseQuery.Boost = BoostValue;
+                        //phraseQuery.Slop = 3;
+                        //finalQuery.Add(phraseQuery, Occur.SHOULD);
+                    }
+                }
+                TopDocs results = _IndexSearcher.Search(finalQuery, (page + 1) * 10);
+                
+                for (int i = page * 10; i < (page + 1) * 10 && i < results.ScoreDocs.Length; i++)
+                {
+                    //Lucene.Net.Documents.Document doc = searcher.Doc(scoreDoc.Doc);
+                    Document doc = _IndexSearcher.Doc(i);
+                    string documentId = doc.Get(DOCUMENTID_FN).ToString();
+                    SEDocument currentDoc = _SourceCollection.Where(d => d.ID == documentId).FirstOrDefault();
+                    if (currentDoc != null)
+                    {
+                        RankedSEDocuments.Add(new RankedSEDocument
+                        (
+                            documentId,
+                            !string.IsNullOrEmpty(currentDoc.Title) ? currentDoc.Title : string.Empty,
+                            !string.IsNullOrEmpty(currentDoc.Author) ? currentDoc.Author : string.Empty,
+                            !string.IsNullOrEmpty(currentDoc.Bibliographic) ? currentDoc.Bibliographic : string.Empty,
+                            !string.IsNullOrEmpty(currentDoc.Abstract) ? currentDoc.Abstract : string.Empty,
+                            (page*10) + i,
+                            0
+                        )
+                        );
+                    }
                 }
             }
             return RankedSEDocuments;
         }
+            
     }
 }

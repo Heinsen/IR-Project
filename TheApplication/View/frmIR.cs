@@ -83,7 +83,7 @@ namespace TheApplication
                 toSearch = ParseInformationNeed(txtInformationNeed.Text);
             }
 
-            result = myLuceneApp.SearchText(toSearch, myParser.FindPhrases(txtInformationNeed.Text), chkAsIs.Checked, pageNum);
+            result = myLuceneApp.SearchText(toSearch, myParser.FindPhrase(txtInformationNeed.Text), chkAsIs.Checked, pageNum);
             
             myLuceneApp.CleanUpSearcher();
             return result;
@@ -112,7 +112,7 @@ namespace TheApplication
             string toSearch = string.Empty;
             toSearch = ParseInformationNeed(cmbInformationNeed.SelectedValue.ToString());
 
-            List<RankedSEDocument> result = myLuceneApp.SearchText(toSearch, myParser.FindPhrases(cmbInformationNeed.SelectedValue.ToString()), false, 0);
+            List<RankedSEDocument> result = myLuceneApp.SearchText(toSearch, myParser.FindPhrase(cmbInformationNeed.SelectedValue.ToString()), false, 0);
             grdResult.DataSource = result;
 
             myLuceneApp.CleanUpSearcher();

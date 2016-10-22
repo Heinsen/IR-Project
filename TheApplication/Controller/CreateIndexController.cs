@@ -57,7 +57,7 @@ namespace TheApplication.Controller
 
         public void ConfirmIndex()
         {
-            SearchController SearchController = new SearchController(_ILuceneHelper, _IQueryParser);
+            SearchController SearchController = new SearchController(_ILuceneHelper, _IQueryParser, _SourceCollection);
             SearchView SearchView = new SearchView();
             SearchView.SetSearchController(SearchController);
             SearchView.Show();
