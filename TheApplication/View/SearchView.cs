@@ -229,5 +229,15 @@ namespace TheApplication.View
 
             return infList;
         }
+
+        private void ObjectListView_ItemActivate(object sender, EventArgs e)
+        {
+            var item = ObjectListView.GetItem(ObjectListView.SelectedIndex).RowObject;
+
+            AbstractView AbstractView = new AbstractView((RankedSEDocument) item);
+
+            AbstractView.Show();
+
+        }
     }
 }
