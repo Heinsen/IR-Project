@@ -9,6 +9,10 @@ namespace TheApplication
 {
     public class SEDocument
     {
+        public SEDocument()
+        {
+        }
+
         public SEDocument(string ID, string Title, string Author, string Bibliographic, string Abstract)
         {
             this.ID = ID;

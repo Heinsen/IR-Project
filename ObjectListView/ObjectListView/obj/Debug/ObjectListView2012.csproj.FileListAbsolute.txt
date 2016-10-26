@@ -7,3 +7,12 @@
 \\vmware-host\Shared Folders\Documents\AISR Practicals\IR project\ObjectListView\ObjectListView\obj\Debug\ObjectListView2012.csproj.GenerateResource.Cache
 \\vmware-host\Shared Folders\Documents\AISR Practicals\IR project\ObjectListView\ObjectListView\obj\Debug\ObjectListView.dll
 \\vmware-host\Shared Folders\Documents\AISR Practicals\IR project\ObjectListView\ObjectListView\obj\Debug\ObjectListView.pdb
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\bin\Debug\ObjectListView.XML
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\bin\Debug\ObjectListView.dll
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\bin\Debug\ObjectListView.pdb
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\obj\Debug\ObjectListView2012.csprojResolveAssemblyReference.cache
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\obj\Debug\BrightIdeasSoftware.Properties.Resources.resources
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\obj\Debug\BrightIdeasSoftware.ColumnSelectionForm.resources
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\obj\Debug\ObjectListView2012.csproj.GenerateResource.Cache
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\obj\Debug\ObjectListView.dll
+C:\Users\nahide\Documents\IR-Project\ObjectListView\ObjectListView\obj\Debug\ObjectListView.pdb

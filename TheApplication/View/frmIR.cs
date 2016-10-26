@@ -103,7 +103,8 @@ namespace TheApplication
         {
             cmbInformationNeed.DataSource = myLuceneApp.BindInformationNeedDropDown();
             myParser.LoadPOSTagger();
-            QueryParser.BindPOSDictionary();
+            QueryParser MyQueryParser = new QueryParser();
+            MyQueryParser.BindPOSDictionary();
         }
 
         private void btnInfSearch_Click(object sender, EventArgs e)

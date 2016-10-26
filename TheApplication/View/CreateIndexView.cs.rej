@@ -1,0 +1,9 @@
+diff a/TheApplication/View/CreateIndexView.cs b/TheApplication/View/CreateIndexView.cs	(rejected hunks)
+@@ -56,7 +56,6 @@
+ 
+         private string ShowFolderBrowser()
+         {
+-            this.FolderBrowser.RootFolder = System.Environment.SpecialFolder.UserProfile;
+             this.FolderBrowser.ShowNewFolderButton = false;
+             this.FolderBrowser.RootFolder = System.Environment.SpecialFolder.UserProfile;
+ 

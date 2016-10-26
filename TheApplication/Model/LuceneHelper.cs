@@ -22,7 +22,7 @@ namespace TheApplication.Model
         IndexSearcher _IndexSearcher;
         MultiFieldQueryParser _MultiFieldQueryParser;
         Similarity _Similarity;
-        float _BoostValue = 2;
+        float _BoostValue = 2.0F;
         List<SEDocument> _SourceCollection;
 
         const Lucene.Net.Util.Version VERSION = Lucene.Net.Util.Version.LUCENE_30;
@@ -37,7 +37,9 @@ namespace TheApplication.Model
         {
             _LuceneIndexDirectory = null;
             _IndexWriter = null;
-            _Analyzer = new Lucene.Net.Analysis.Snowball.SnowballAnalyzer(VERSION, "English");
+            //_Analyzer = new Lucene.Net.Analysis.Snowball.SnowballAnalyzer(VERSION, "English");
+            _Analyzer = new Lucene.Net.Analysis.Standard.StandardAnalyzer(VERSION);
+            _Similarity = new NewSimilarity();
         }
 
         public void CreateIndex(List<SEDocument> SEDocuments, string IndexPath)
@@ -67,9 +69,9 @@ namespace TheApplication.Model
                 _MultiFieldQueryParser = new MultiFieldQueryParser(
                 Lucene.Net.Util.Version.LUCENE_30, fields,
                 _Analyzer
-                , boosts);
+                //, boosts
+                );
 
-                //newSimilarity = new NewSimilarity();
             }
             _MultiFieldQueryParser.DefaultOperator = MultiFieldQueryParser.OR_OPERATOR;
         }
@@ -88,7 +90,7 @@ namespace TheApplication.Model
         private void CreateSearcher()
         {
             _IndexSearcher = new IndexSearcher(_LuceneIndexDirectory);
-            //searcher.Similarity = newSimilarity; 
+            _IndexSearcher.Similarity = _Similarity; 
         }
 
 
@@ -101,7 +103,7 @@ namespace TheApplication.Model
             _LuceneIndexDirectory = FSDirectory.Open(indexPath);
             IndexWriter.MaxFieldLength mfl = new IndexWriter.MaxFieldLength(IndexWriter.DEFAULT_MAX_FIELD_LENGTH);
             _IndexWriter = new IndexWriter(_LuceneIndexDirectory, _Analyzer, true, mfl);
-            //writer.SetSimilarity(newSimilarity); 
+            _IndexWriter.SetSimilarity(_Similarity); 
         }
 
         /// <summary>
@@ -131,55 +133,94 @@ namespace TheApplication.Model
             _IndexWriter.Dispose();
         }
 
+
+
         public List<RankedSEDocument> SearchText(string QueryString, List<string> phraseList, List<SEDocument> _SourceCollection, bool asis, int page)
         {
-
             List<RankedSEDocument> RankedSEDocuments = new List<RankedSEDocument>();
             if (!string.IsNullOrEmpty(QueryString))
             {
-                InitializeMultiFieldQueryParser(asis);
+                TopDocs results = Search(QueryString, phraseList, asis, page);
+                LoadMatchedDocument(_SourceCollection, page, RankedSEDocuments, results);
 
-                BooleanQuery finalQuery = new BooleanQuery();
-                if (asis)
+            }
+            return RankedSEDocuments;
+        }
+
+        public TopDocs Search(string QueryString, List<string> phraseList, bool asis, int page)
+        {
+            InitializeMultiFieldQueryParser(asis);
+
+            BooleanQuery finalQuery = new BooleanQuery();
+            if (asis)
+            {
+                finalQuery.Add(_MultiFieldQueryParser.Parse(QueryString), Occur.SHOULD);
+            }
+            else
+            {
+                //querytext = querytext.ToLower();
+                QueryParser myQueryParser = new QueryParser();
+                foreach (string phrase in phraseList)
                 {
-                    finalQuery.Add(_MultiFieldQueryParser.Parse(QueryString), Occur.SHOULD);
-                }
-                else
-                {
-                    //querytext = querytext.ToLower();
-                    QueryParser myQueryParser = new QueryParser();
-                    finalQuery.Add(_MultiFieldQueryParser.Parse(QueryString.Replace('\"', ' ')), Occur.SHOULD);
-                    string[] tokens = myQueryParser.TokeniseString(QueryString.Replace('\"', ' ').Replace('[', ' ').Replace(']', ' '));
-                    //foreach (string term in tokens)
+                    //finalQuery.Add(_MultiFieldQueryParser.Parse("\"" + phrase + "\"" + "^20"), Occur.SHOULD);
+                    //_MultiFieldQueryParser.PhraseSlop = 2;
+                    PhraseQuery abstractPhraseQuery = new PhraseQuery();
+                    PhraseQuery titlePhraseQuery = new PhraseQuery();
+
+                    abstractPhraseQuery.Add(new Term(ABSTRACT_FN, phrase));
+                    titlePhraseQuery.Add(new Term(TITLE_FN, phrase));
+
+                    abstractPhraseQuery.Boost = 1.2F;
+                    abstractPhraseQuery.Slop = 3;
+                    finalQuery.Add(abstractPhraseQuery, Occur.SHOULD);
+                    titlePhraseQuery.Boost = 4.0F;
+                    titlePhraseQuery.Slop = 3;
+                    finalQuery.Add(titlePhraseQuery, Occur.SHOULD);
+
+                    //string[] phraseParts = phrase.Split(' ');
+                    //BooleanQuery innerquery = new BooleanQuery();
+                    //foreach (string p in phraseParts)
                     //{
-                    //    finalQuery.Add(mfqp.Parse(term), Occur.SHOULD);
+                    //    innerquery.Add(_MultiFieldQueryParser.Parse(p.Replace("~", "") + "~"), Occur.MUST);
                     //}
-                    //finalQuery.MinimumNumberShouldMatch = (int)(tokens.Count() / 2);
-
-                    foreach (string phrase in phraseList)
-                    {
-                        finalQuery.Add(_MultiFieldQueryParser.Parse("\"" + phrase + "\"" + "^20"), Occur.SHOULD);
-                        _MultiFieldQueryParser.PhraseSlop = 2;
-                        //string[] phraseParts = phrase.Split(' ');
-                        //phraseQuery = new PhraseQuery();
-                        //foreach (string p in phraseParts)
-                        //{
-                        //    phraseQuery.Add(new Term(ABSTRACT_FN, p));
-                        //}
-                        //phraseQuery.Boost = BoostValue;
-                        //phraseQuery.Slop = 3;
-                        //finalQuery.Add(phraseQuery, Occur.SHOULD);
-                    }
+                    //finalQuery.Add(innerquery, Occur.SHOULD);
                 }
-                TopDocs results = _IndexSearcher.Search(finalQuery, (page + 1) * 10);
-                
-                for (int i = page * 10; i < (page + 1) * 10 && i < results.ScoreDocs.Length; i++)
+
+                string[] tokens = myQueryParser.TokeniseString(QueryString.Replace('\"', ' ').Replace('[', ' ').Replace(']', ' '));
+                foreach (string term in tokens)
                 {
-                    //Lucene.Net.Documents.Document doc = searcher.Doc(scoreDoc.Doc);
-                    Document doc = _IndexSearcher.Doc(i);
-                    string documentId = doc.Get(DOCUMENTID_FN).ToString();
-                    SEDocument currentDoc = _SourceCollection.Where(d => d.ID == documentId).FirstOrDefault();
-                    if (currentDoc != null)
+                        finalQuery.Add(_MultiFieldQueryParser.Parse(term.Replace("~", "") + "~"), Occur.SHOULD);
+                }
+                finalQuery.MinimumNumberShouldMatch = 2;
+
+
+            }
+            TopDocs results = _IndexSearcher.Search(finalQuery, (page == -1) ? 1400 : (page + 1) * 10);
+            return results;
+        }
+
+        private void LoadMatchedDocument(List<SEDocument> _SourceCollection, int page, List<RankedSEDocument> RankedSEDocuments, TopDocs results)
+        {
+            int lowerBand = page * 10;
+            int upperBand = (page + 1) * 10;
+            ScoreDoc[] scoreDocs = results.ScoreDocs;
+            int rank = 1;
+
+            if (page == -1)
+            {
+                lowerBand = 0;
+                upperBand = results.ScoreDocs.Length;
+            }
+            for (int i = lowerBand; i < upperBand && i < results.ScoreDocs.Length; i++)
+            {
+                //Lucene.Net.Documents.Document doc = searcher.Doc(scoreDoc.Doc);
+                Document doc = _IndexSearcher.Doc(scoreDocs[i].Doc);
+
+                string documentId = doc.Get(DOCUMENTID_FN).ToString();
+                SEDocument currentDoc = _SourceCollection.Where(d => d.ID == documentId).FirstOrDefault();
+                if (currentDoc != null)
+                {
+                    if (page != -1)
                     {
                         RankedSEDocuments.Add(new RankedSEDocument
                         (
@@ -188,15 +229,24 @@ namespace TheApplication.Model
                             !string.IsNullOrEmpty(currentDoc.Author) ? currentDoc.Author : string.Empty,
                             !string.IsNullOrEmpty(currentDoc.Bibliographic) ? currentDoc.Bibliographic : string.Empty,
                             !string.IsNullOrEmpty(currentDoc.Abstract) ? currentDoc.Abstract : string.Empty,
-                            (page*10) + i,
+                            (page * 10) + i,
                             0
                         )
                         );
                     }
+                    else
+                    {
+                        RankedSEDocuments.Add(new RankedSEDocument(
+
+                                                documentId,
+                                                rank++,
+                                                scoreDocs[i].Score
+
+                                            ));
+                    }
                 }
             }
-            return RankedSEDocuments;
         }
-            
+
     }
 }

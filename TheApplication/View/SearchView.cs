@@ -16,7 +16,7 @@ namespace TheApplication.View
 {
     public partial class SearchView : Form
     {
-        public delegate List<RankedSEDocument> SearchCollectionDelegate(string QueryString, bool Preprocess);
+        public delegate List<RankedSEDocument> SearchCollectionDelegate(string QueryString, bool Preprocess, int pageNumber);
         SearchCollectionDelegate _SearchCollectionDelegate;
 
         private SearchController _SearchController;
@@ -100,7 +100,7 @@ namespace TheApplication.View
 
             //Start backgroundthread searching the collcation
             _SearchCollectionDelegate = new SearchCollectionDelegate(_SearchController.SearchIndex);
-            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, this.SearchedCollection, null);
+            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, 0, this.SearchedCollection, null);
         }
 
         private void SearchedCollection(IAsyncResult result)
@@ -201,7 +201,7 @@ namespace TheApplication.View
 
         private void SaveSearchResultButton_Click(object sender, EventArgs e)
         {
-            _SearchController.SaveRankedDocuments();
+            _SearchController.SaveRankedDocuments(QueryTextBox.Text, NoPreprocessingCheckBox.Checked);
         }
 
         private void Timer_Tick(object sender, EventArgs e)

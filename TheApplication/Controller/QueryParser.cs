@@ -32,7 +32,7 @@ namespace TheApplication
     {
         PorterStemmerAlgorithm.PorterStemmer myStemmer; 
         System.Collections.Generic.Dictionary<string, int> tokenCount; 
-        public string[] stopWords = {"a", "an", "and", "are", "as", "at", "be", "but", "by","for", "if", "in", "into", "is", "it","no", "not", "of", "on", "or", "such","that", "the", "their", "then", "there", "these","they", "this", "to", "was", "will", "with"};
+        public string[] stopWords = {"a", "an", "and", "are", "as", "at", "be", "but", "by","for", "if", "in", "into", "is", "it","no", "not", "of", "on", "or", "such","that", "the", "their", "then", "there", "these","they", "this", "to", "was", "will", "with", "what", "must", "when", "has", "anyone", "which", "how", "can"};
         private static Dictionary<string, WordNetEngine.POS> POSList;
 
         public QueryParser()
@@ -117,8 +117,8 @@ namespace TheApplication
 
         public string GetSynonyms(string word)
         {
-            //string url = string.Format("http://words.bighugelabs.com/api/2/7d767a7c110f12ce6521e0e6e3a46e55/{0}/json", word);
-            string url = string.Format("http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/{0}?key=f8ebaf16-367e-415b-899e-a6126a040fa3", word);
+            string url = string.Format("http://words.bighugelabs.com/api/2/7d767a7c110f12ce6521e0e6e3a46e55/{0}/txt", word);
+            //string url = string.Format("http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/{0}?key=f8ebaf16-367e-415b-899e-a6126a040fa3", word);
             return CallRestMethod(url);
 
         }
@@ -133,7 +133,17 @@ namespace TheApplication
             StreamReader responseStream = new StreamReader(webresponse.GetResponseStream(), enc);
             string result = string.Empty;
             result = responseStream.ReadToEnd();
-            XmlDocument xmlResult = new XmlDocument();
+            string[] splittedResult = result.Split('|');
+            int synCount = splittedResult.Count() / 3;
+            string syns = string.Empty;
+            for (int i = 1; i <= 3; i++)
+            {
+                if(synCount >= i*2)
+                {
+                    syns += splittedResult[i * 2].Split('\n')[0] + " ";
+                }
+            }
+            /*XmlDocument xmlResult = new XmlDocument();
             xmlResult.LoadXml(result);
             string syns = string.Empty;
             XmlNodeList xmlNode = xmlResult.SelectNodes("/entry_list/entry/sens/syn");
@@ -145,54 +155,69 @@ namespace TheApplication
                     //"adhere (to), comply (with), conform (to), follow, goose-step (to), mind, observe"	string
 
                 }
-            }
+            }*/
             webresponse.Close();
-            return syns;
+return syns;
         }
 
 
         public string InformationNeedParser(string userQuery)
         {
             string[] basicquery = ProcessText(userQuery);
-            //string taggedQuery = POSTagger(userQuery);
-            //string[] query = ProcessText(taggedQuery);
-            Dictionary<string, WordNetEngine.POS> POSList = BindPOSDictionary();
+            //LoadPOSTagger();
+            string taggedQuery = POSTagger(userQuery);
+            string[] query = TokeniseString(taggedQuery);
+            //Dictionary<string, WordNetEngine.POS> POSList = BindPOSDictionary();
             
-        //http://words.bighugelabs.com/api/2/7d767a7c110f12ce6521e0e6e3a46e55/word/xml
-        //Your API key is 7d767a7c110f12ce6521e0e6e3a46e55
-
+            //http://words.bighugelabs.com/api/2/7d767a7c110f12ce6521e0e6e3a46e55/word/xml
+            //Your API key is 7d767a7c110f12ce6521e0e6e3a46e55
             //http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/umpire?key=[YOUR KEY GOES HERE]
             //Key (Thesaurus): f8ebaf16-367e-415b-899e-a6126a040fa3
             //Key (Dictionary): ecc5d2c5-f4a4-41db-b471-7cbc5127a7fd
 
             List<SynSet> synonyms = new List<SynSet>();
             string syns = string.Empty;
-            foreach (string token in basicquery)
+            foreach (string token in query)
             {
-                //string[] t = token.Split('/');
-                //if (t!= null && t.Count() > 1 && POSList.ContainsKey(t[1].ToUpper()))
-                //{
-                    //syns = syns + " " + GetSynonyms(token);
-                //synonyms = WordNet(t[0], POSList[t[1].ToUpper()]);
-
-                synonyms = WordNet(token, POSList["NN"]);
-                if (synonyms != null && synonyms.Count > 0)
+                string[] t = token.Split('/');
+                if (t!= null && t.Count() > 1 && POSList.ContainsKey(t[1].ToUpper()))
                 {
-                    foreach (SynSet synSet in synonyms)
+                    //syns = syns + " " + t[0];
+
+                    if (t[1].ToUpper().Equals("JJ"))
+                        t[0] = StemTokens(new string[] { t[0] }).FirstOrDefault();
+
+                    try
                     {
-                        if (synSet.Words != null && synSet.Words.Any())
-                            foreach (string s in synSet.Words)
-                                if (!s.ToUpper().Equals(token.ToUpper()))
-                                    syns = syns + " " + s;
+                        syns = syns + " " + GetSynonyms(t[0]);
                     }
+                    catch
+                    {
+                        continue;
+                    }
+
+                    //synonyms = WordNet(t[0], POSList[t[1].ToUpper()]);
+
+                    //synonyms = WordNet(token, POSList["NN"]);
+                    //if (synonyms != null && synonyms.Count > 0)
+                    //{
+                    //    foreach (SynSet synSet in synonyms)
+                    //    {
+                    //        if (synSet.Words != null && synSet.Words.Any())
+                    //            foreach (string s in synSet.Words)
+                    //                if (!s.ToUpper().Equals(token.ToUpper()))
+                    //                    syns = syns + " " + s;
+                    //    }
+                    //}
                 }
-                //}
             }
             //string[] expandedQuery = ProcessText(syns);
-            return string.Join(" ", basicquery) + " " + syns;
+            //return string.Join(" ", basicquery) + " " + syns;
+            string[] expandedQuery = ProcessText(syns);
+            return string.Join(" ", basicquery) + " " + string.Join(" ", expandedQuery.Distinct());
         }
 
-        public static Dictionary<string, WordNetEngine.POS> BindPOSDictionary()
+        public Dictionary<string, WordNetEngine.POS> BindPOSDictionary()
         {
             POSList = new Dictionary<string, WordNetEngine.POS>();
             POSList.Add("NN", WordNetEngine.POS.Noun);
@@ -200,12 +225,12 @@ namespace TheApplication
             POSList.Add("NNS", WordNetEngine.POS.Noun);
             POSList.Add("NNP", WordNetEngine.POS.Noun);
             POSList.Add("NNPS ", WordNetEngine.POS.Noun);
-            POSList.Add("VBZ", WordNetEngine.POS.Verb);
-            POSList.Add("VB", WordNetEngine.POS.Verb);
-            POSList.Add("VBG", WordNetEngine.POS.Verb);
-            POSList.Add("VBN", WordNetEngine.POS.Verb);
-            POSList.Add("VBD", WordNetEngine.POS.Verb);
-            POSList.Add("VBP", WordNetEngine.POS.Verb);
+            //POSList.Add("VBZ", WordNetEngine.POS.Verb);
+            //POSList.Add("VB", WordNetEngine.POS.Verb);
+            //POSList.Add("VBG", WordNetEngine.POS.Verb);
+            //POSList.Add("VBN", WordNetEngine.POS.Verb);
+            //POSList.Add("VBD", WordNetEngine.POS.Verb);
+            //POSList.Add("VBP", WordNetEngine.POS.Verb);
             POSList.Add("JJ", WordNetEngine.POS.Adjective);
             return POSList;
         }
@@ -220,7 +245,6 @@ namespace TheApplication
             string[] tokensNoStop = StopWordFilter(tokens);
             //string[] stems = StemTokens(tokensNoStop);
            
-
             return tokensNoStop;
         }
 
@@ -240,7 +264,19 @@ namespace TheApplication
 
         }
 
-        MaxentTagger tagger = null;
+        public MaxentTagger Tagger
+        {
+            get
+            {
+                if (tagger == null)
+                {
+                    LoadPOSTagger();
+                }
+                return tagger;
+            }
+        }
+
+        private static MaxentTagger tagger;
 
         public void LoadPOSTagger()
         {
@@ -253,11 +289,6 @@ namespace TheApplication
 
         private string POSTagger(string text)
         {
-            //// Text for tagging
-            //var text = "A Part-Of-Speech Tagger (POS Tagger) is a piece of software that reads text"
-            //           + "in some language and assigns parts of speech to each word (and other token),"
-            //           + " such as noun, verb, adjective, etc., although generally computational "
-            //           + "applications use more fine-grained POS tags like 'noun-plural'.";
             string posSentence = string.Empty;
             var sentences = MaxentTagger.tokenizeText(new java.io.StringReader(text)).toArray();
             foreach (ArrayList sentence in sentences)

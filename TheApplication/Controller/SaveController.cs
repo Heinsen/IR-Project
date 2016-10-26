@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lucene.Net.Documents;
+using Lucene.Net.Search;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +13,10 @@ namespace TheApplication.Controller
     {
 
         List<RankedSEDocument> _RankedSEDocuments;
-        int _TopicID;
+        string _TopicID;
 
         //TODO: Pass correct TopicID
-        public SaveController(int TopicID, List<RankedSEDocument> RankedSEDocuments)
+        public SaveController(string TopicID, List<RankedSEDocument> RankedSEDocuments)
         {
             this._TopicID = TopicID;
             this._RankedSEDocuments = RankedSEDocuments;
@@ -43,17 +45,17 @@ namespace TheApplication.Controller
             return (string)Properties.Settings.Default["SaveFileName"];
         }
 
+
         public void SaveDocument()
         {
 
             string FileContent = string.Empty;
-
-            foreach(RankedSEDocument Document in _RankedSEDocuments)
+            foreach (RankedSEDocument Doc in _RankedSEDocuments)
             {
                 //TODO: Add studentnumber and groupname
-                FileContent += _TopicID.ToString() + " " +
+                FileContent += _TopicID + " " +
                     "Q0" + " " +
-                    Document.getDocumentSaveString() + " " + 
+                    Doc.getDocumentSaveString() + " " + 
                     "9792066" + 
                     Environment.NewLine;
             }
@@ -61,5 +63,7 @@ namespace TheApplication.Controller
             //TODO: Indicate wether or not it was successfully saved
             bool SuccessfullySave = FileManipulator.SaveFile((string)Properties.Settings.Default["SavePath"], (string)Properties.Settings.Default["SaveFileName"], FileContent, true);
         }
+
+       
     }
 }
