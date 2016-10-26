@@ -445,10 +445,6 @@
       <Project>{18feda0c-d147-4286-b39a-01204808106a}</Project>
       <Name>ObjectListView2012</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WordNet\WordNet.csproj">
-      <Project>{f4c6c48c-90ef-445d-b8f8-ad9b6767d9a8}</Project>
-      <Name>WordNet</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

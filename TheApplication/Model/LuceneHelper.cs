@@ -69,7 +69,7 @@ namespace TheApplication.Model
                 _MultiFieldQueryParser = new MultiFieldQueryParser(
                 Lucene.Net.Util.Version.LUCENE_30, fields,
                 _Analyzer
-                //, boosts
+                , boosts
                 );
 
             }

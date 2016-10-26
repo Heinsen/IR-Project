@@ -1,4 +1,4 @@
-﻿using LAIR.ResourceAPIs.WordNet;
+﻿//using LAIR.ResourceAPIs.WordNet;
 //using System;
 //using System.Collections.Generic;
 //using System.IO;
@@ -33,7 +33,7 @@ namespace TheApplication
         PorterStemmerAlgorithm.PorterStemmer myStemmer; 
         System.Collections.Generic.Dictionary<string, int> tokenCount; 
         public string[] stopWords = {"a", "an", "and", "are", "as", "at", "be", "but", "by","for", "if", "in", "into", "is", "it","no", "not", "of", "on", "or", "such","that", "the", "their", "then", "there", "these","they", "this", "to", "was", "will", "with", "what", "must", "when", "has", "anyone", "which", "how", "can"};
-        private static Dictionary<string, WordNetEngine.POS> POSList;
+        private static Dictionary<string, string> POSList;
 
         public QueryParser()
         {
@@ -175,7 +175,7 @@ return syns;
             //Key (Thesaurus): f8ebaf16-367e-415b-899e-a6126a040fa3
             //Key (Dictionary): ecc5d2c5-f4a4-41db-b471-7cbc5127a7fd
 
-            List<SynSet> synonyms = new List<SynSet>();
+            //List<SynSet> synonyms = new List<SynSet>();
             string syns = string.Empty;
             foreach (string token in query)
             {
@@ -217,21 +217,21 @@ return syns;
             return string.Join(" ", basicquery) + " " + string.Join(" ", expandedQuery.Distinct());
         }
 
-        public Dictionary<string, WordNetEngine.POS> BindPOSDictionary()
+        public Dictionary<string, string> BindPOSDictionary()
         {
-            POSList = new Dictionary<string, WordNetEngine.POS>();
-            POSList.Add("NN", WordNetEngine.POS.Noun);
-            POSList.Add("NNZ", WordNetEngine.POS.Noun);
-            POSList.Add("NNS", WordNetEngine.POS.Noun);
-            POSList.Add("NNP", WordNetEngine.POS.Noun);
-            POSList.Add("NNPS ", WordNetEngine.POS.Noun);
+            POSList = new Dictionary<string, string>();
+            POSList.Add("NN", "Noun");
+            POSList.Add("NNZ", "Noun");
+            POSList.Add("NNS", "Noun");
+            POSList.Add("NNP", "Noun");
+            POSList.Add("NNPS ", "Noun");
             //POSList.Add("VBZ", WordNetEngine.POS.Verb);
             //POSList.Add("VB", WordNetEngine.POS.Verb);
             //POSList.Add("VBG", WordNetEngine.POS.Verb);
             //POSList.Add("VBN", WordNetEngine.POS.Verb);
             //POSList.Add("VBD", WordNetEngine.POS.Verb);
             //POSList.Add("VBP", WordNetEngine.POS.Verb);
-            POSList.Add("JJ", WordNetEngine.POS.Adjective);
+            POSList.Add("JJ", "Adjective");
             return POSList;
         }
           
@@ -248,21 +248,21 @@ return syns;
             return tokensNoStop;
         }
 
-        private WordNetEngine _wordNetEngine;
+        //private WordNetEngine _wordNetEngine;
 
-        public List<SynSet> WordNet(string word, WordNetEngine.POS pos)
-        {
-            string root = Directory.GetDirectoryRoot(".");
-            _wordNetEngine = new WordNetEngine(root + @"\dev\wordnetapi\resources\", false);
-            List<SynSet> synSetsToShow = null;
+        //public List<SynSet> WordNet(string word, WordNetEngine.POS pos)
+        //{
+        //    string root = Directory.GetDirectoryRoot(".");
+        //    _wordNetEngine = new WordNetEngine(root + @"\dev\wordnetapi\resources\", false);
+        //    List<SynSet> synSetsToShow = null;
 
-            SynSet synset = _wordNetEngine.GetMostCommonSynSet(word, WordNetEngine.POS.Noun);
+        //    SynSet synset = _wordNetEngine.GetMostCommonSynSet(word, WordNetEngine.POS.Noun);
 
-            if (synset != null)
-                synSetsToShow = new List<SynSet>(new SynSet[] { synset });
-            return synSetsToShow;
+        //    if (synset != null)
+        //        synSetsToShow = new List<SynSet>(new SynSet[] { synset });
+        //    return synSetsToShow;
 
-        }
+        //}
 
         public MaxentTagger Tagger
         {
