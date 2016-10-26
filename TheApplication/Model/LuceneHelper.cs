@@ -14,6 +14,7 @@ using Lucene.Net.Support; // for snowball analyser
 
 namespace TheApplication.Model
 {
+    //test commit
     public class LuceneHelper : ILuceneHelper
     {
         Directory _LuceneIndexDirectory;
