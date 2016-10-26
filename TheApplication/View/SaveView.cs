@@ -63,7 +63,7 @@ namespace TheApplication.View
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)

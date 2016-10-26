@@ -9,41 +9,98 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheApplication.Controller;
 using TheApplication.Model;
+using BrightIdeasSoftware;
+
 
 namespace TheApplication.View
 {
     public partial class SearchView : Form
     {
-        public delegate List<RankedSEDocument> SearchCollectionDelegate(string QueryString, bool Preprocess, int pageNum);
+        public delegate List<RankedSEDocument> SearchCollectionDelegate(string QueryString, bool Preprocess);
         SearchCollectionDelegate _SearchCollectionDelegate;
 
         private SearchController _SearchController;
-        private int _PageNum;
+        
+        private List<RankedSEDocument> _RankedSEDocuments;
+
+        private int _CurrentTopListViewItem = 0;
+        private int _NNewListViewItems = 10;
+
+        Timer _Timer = new Timer();
+        DateTime _StartTime;
 
         public SearchView()
         {
             InitializeComponent();
+
+            SetupObjectListView();
+           
+            _Timer.Tick += new EventHandler(Timer_Tick);
+        }
+
+        private void SetupObjectListView()
+        {
+            this.Title.Renderer = CreateDescribedTaskRenderer();
+
+            this.Title.AspectName = "Title";
+
+            this.ObjectListView.CellPadding = new Rectangle(4, 1, 4, 0);
+
+
+            TextOverlay textOverlay = this.ObjectListView.EmptyListMsgOverlay as TextOverlay;
+            textOverlay.BackColor = Color.White;
+            textOverlay.BorderWidth = 0f;
+        }
+
+        private DescribedTaskRenderer CreateDescribedTaskRenderer()
+        {
+
+            // Let's create an appropriately configured renderer.
+            DescribedTaskRenderer renderer = new DescribedTaskRenderer();
+
+            // Tell the renderer which property holds the text to be used as a description
+            renderer.DescriptionAspectName = "Description";
+            
+            
+            // Change the formatting slightly
+            renderer.TitleFont = new Font("Tahoma", 10, FontStyle.Bold);
+            renderer.DescriptionFont = new Font("Tahoma", 9);
+            renderer.ImageTextSpace = 0;
+            renderer.TitleDescriptionSpace = 1;
+
+            // Use older Gdi renderering, since most people think the text looks clearer
+            renderer.UseGdiTextRendering = true;
+            
+            return renderer;
         }
 
         public void SetSearchController(SearchController SearchController)
         {
             _SearchController = SearchController;
-            _PageNum = 0;
+        }
+
+        private void StartTimer()
+        {
+            _StartTime = System.DateTime.Now;
+            _Timer.Start();
         }
 
         private void SearchCollectionButton_Click(object sender, EventArgs e)
         {
-            Search(0);
+            //Clear local list and ObjectListView
+            if(_RankedSEDocuments != null)
+                _RankedSEDocuments.Clear();
 
-            //_SearchController.SearchIndex(QueryTextBox.Text, NoPreprocessingCheckBox.Checked);
-        }
+            ObjectListView.ClearObjects();
 
-        private void Search(int pageNum)
-        {
+            //Start search timer, updating status label
+            StartTimer();
+
             SearchCollectionButton.Enabled = false;
 
+            //Start backgroundthread searching the collcation
             _SearchCollectionDelegate = new SearchCollectionDelegate(_SearchController.SearchIndex);
-            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, _PageNum, this.SearchedCollection, null);
+            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, this.SearchedCollection, null);
         }
 
         private void SearchedCollection(IAsyncResult result)
@@ -64,12 +121,16 @@ namespace TheApplication.View
             {
                 SearchCollectionButton.Enabled = true;
 
+                _Timer.Stop();
+
                 List<RankedSEDocument> RankedSEDocuments;
 
                 try
                 {
                     RankedSEDocuments = _SearchCollectionDelegate.EndInvoke(result);
                     SetListViewData(RankedSEDocuments);
+
+                    SetResultsStripStatusLabel(RankedSEDocuments.Count);
                 }
                 catch (Exception e)
                 {
@@ -80,29 +141,80 @@ namespace TheApplication.View
 
         private void SetListViewData(List<RankedSEDocument> RankedSEDocuments)
         {
-            RankedSEDocumentsListView.Items.Clear();
-            RankedSEDocumentsListView.View = System.Windows.Forms.View.Details;
-            RankedSEDocumentsListView.GridLines = true;
-            RankedSEDocumentsListView.FullRowSelect = true;
+            this._RankedSEDocuments = RankedSEDocuments;
+            ShowListViewItems(0);
+        }
+        
+        private void PreviousButton_Click(object sender, EventArgs e)
+        {
+            _CurrentTopListViewItem -= _NNewListViewItems;
 
-            RankedSEDocumentsListView.Columns.Add("Rank", 35);
-            RankedSEDocumentsListView.Columns.Add("Title", 300);
-            RankedSEDocumentsListView.Columns.Add("Author", 150);
-            RankedSEDocumentsListView.Columns.Add("Bibliograpic information", 100);
-            RankedSEDocumentsListView.Columns.Add("Abstract", 400);
+            ShowListViewItems(_CurrentTopListViewItem);
+        }
 
-            foreach(RankedSEDocument Document in RankedSEDocuments)
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            _CurrentTopListViewItem += _NNewListViewItems;
+
+            ShowListViewItems(_CurrentTopListViewItem);
+        }
+
+        //Navigate through the current search result 
+        private void ShowListViewItems(int NewTopItem)
+        {
+            //If we have reached the start
+            if (NewTopItem < 0)
             {
-                string[] arr = new string[5];
-
-                arr[0] = Document.Rank.ToString();
-                arr[1] = Document.Title;
-                arr[2] = Document.Author;
-                arr[3] = Document.Bibliographic;
-                arr[4] = Document.getAbstractFirstLine();
-                ListViewItem ListViewItem = new ListViewItem(arr);
-                RankedSEDocumentsListView.Items.Add(ListViewItem);
+                NewTopItem = 0;
             }
+
+            int NewLastItem = NewTopItem + _NNewListViewItems;
+
+            //If we have reached the end
+            if(NewLastItem >= _RankedSEDocuments.Count)
+            {
+                NextButton.Enabled = false;
+                NewLastItem = _RankedSEDocuments.Count;
+            }
+            else
+            {
+                NextButton.Enabled = true;
+            }
+
+            this.ObjectListView.ClearObjects();
+
+            for(int i = NewTopItem; i < NewLastItem; i++)
+            {
+                this.ObjectListView.AddObject(_RankedSEDocuments[i]);
+            }
+
+            if (NewTopItem <= 0)
+            {
+                PreviousButton.Enabled = false;
+            }
+            else
+            {
+                PreviousButton.Enabled = true;
+            }
+
+        }
+
+        private void SaveSearchResultButton_Click(object sender, EventArgs e)
+        {
+            _SearchController.SaveRankedDocuments();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            var TimeElapsed = DateTime.Now - _StartTime;
+
+            StripStatusLabel.Text =  "Searching collection " + string.Format("{0:D2}:{1:D2}", TimeElapsed.Minutes, TimeElapsed.Seconds);
+        }
+
+        private void SetResultsStripStatusLabel(int NRankedDocuments)
+        {
+            var TimeElapsed = DateTime.Now - _StartTime;
+            StripStatusLabel.Text = string.Format("Found {0} relevant documents in {1} minutes and {2} seconds", NRankedDocuments, TimeElapsed.Minutes, TimeElapsed.Seconds);
         }
 
         //Not used in current implementation
@@ -118,23 +230,14 @@ namespace TheApplication.View
             return infList;
         }
 
-        private void SaveSearchResultButton_Click(object sender, EventArgs e)
+        private void ObjectListView_ItemActivate(object sender, EventArgs e)
         {
-            _SearchController.SaveRankedDocuments();
+            var item = ObjectListView.GetItem(ObjectListView.SelectedIndex).RowObject;
 
-        }
+            AbstractView AbstractView = new AbstractView((RankedSEDocument) item);
 
-        private void NextButton_Click(object sender, EventArgs e)
-        {
-            Search(_PageNum++);
-        }
+            AbstractView.Show();
 
-        private void PreviousButton_Click(object sender, EventArgs e)
-        {
-            if (_PageNum >= 1)
-            {
-                Search(_PageNum--);
-            }
         }
     }
 }

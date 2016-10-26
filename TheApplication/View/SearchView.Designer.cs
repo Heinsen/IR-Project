@@ -31,6 +31,7 @@
             this.SearchCollectionButton = new System.Windows.Forms.Button();
             this.NoPreprocessingCheckBox = new System.Windows.Forms.CheckBox();
             this.SearchPanel = new System.Windows.Forms.Panel();
+            this.QueryTextBox = new TheApplication.View.WaterMarkTextBox();
             this.SaveSearchResultButton = new System.Windows.Forms.Button();
             this.SearchResultPanel = new System.Windows.Forms.Panel();
             this.ObjectListView = new BrightIdeasSoftware.ObjectListView();
@@ -41,7 +42,6 @@
             this.PreviousButton = new System.Windows.Forms.Button();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.StripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.QueryTextBox = new TheApplication.View.WaterMarkTextBox();
             this.SearchPanel.SuspendLayout();
             this.SearchResultPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectListView)).BeginInit();
@@ -80,6 +80,30 @@
             this.SearchPanel.Name = "SearchPanel";
             this.SearchPanel.Size = new System.Drawing.Size(1164, 106);
             this.SearchPanel.TabIndex = 3;
+            // 
+            // QueryTextBox
+            // 
+            this.QueryTextBox.AutoCompleteCustomSource.AddRange(new string[] {
+            "what \"similarity laws\" must be obeyed when constructing aeroelastic models of hea" +
+                "ted high speed aircraft",
+            "what are the structural and aeroelastic problems associated with flight of high s" +
+                "peed aircraft",
+            "how can the aerodynamic performance of channel flow ground effect machines be cal" +
+                "culated",
+            "in summarizing theoretical and experimental work on the behaviour of a typical ai" +
+                "rcraft structure in a noise environment is it possible to develop a design proce" +
+                "dure",
+            "has anyone developed an analysis which accurately establishes the large deflectio" +
+                "n behaviour of \"conical shells\""});
+            this.QueryTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.QueryTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.QueryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.QueryTextBox.Location = new System.Drawing.Point(117, 19);
+            this.QueryTextBox.Name = "QueryTextBox";
+            this.QueryTextBox.Size = new System.Drawing.Size(483, 26);
+            this.QueryTextBox.TabIndex = 0;
+            this.QueryTextBox.WaterMarkColor = System.Drawing.Color.Gray;
+            this.QueryTextBox.WaterMarkText = "Search";
             // 
             // SaveSearchResultButton
             // 
@@ -132,6 +156,7 @@
             this.ObjectListView.TabStop = false;
             this.ObjectListView.UseCompatibleStateImageBehavior = false;
             this.ObjectListView.View = System.Windows.Forms.View.Details;
+            this.ObjectListView.ItemActivate += new System.EventHandler(this.ObjectListView_ItemActivate);
             // 
             // Rank
             // 
@@ -196,30 +221,6 @@
             this.StripStatusLabel.Size = new System.Drawing.Size(246, 17);
             this.StripStatusLabel.Text = "Search the collection through the search field";
             this.StripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // QueryTextBox
-            // 
-            this.QueryTextBox.AutoCompleteCustomSource.AddRange(new string[] {
-            "what \"similarity laws\" must be obeyed when constructing aeroelastic models of hea" +
-                "ted high speed aircraft",
-            "what are the structural and aeroelastic problems associated with flight of high s" +
-                "peed aircraft",
-            "how can the aerodynamic performance of channel flow ground effect machines be cal" +
-                "culated",
-            "in summarizing theoretical and experimental work on the behaviour of a typical ai" +
-                "rcraft structure in a noise environment is it possible to develop a design proce" +
-                "dure",
-            "has anyone developed an analysis which accurately establishes the large deflectio" +
-                "n behaviour of \"conical shells\""});
-            this.QueryTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.QueryTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.QueryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.QueryTextBox.Location = new System.Drawing.Point(117, 19);
-            this.QueryTextBox.Name = "QueryTextBox";
-            this.QueryTextBox.Size = new System.Drawing.Size(483, 26);
-            this.QueryTextBox.TabIndex = 0;
-            this.QueryTextBox.WaterMarkColor = System.Drawing.Color.Gray;
-            this.QueryTextBox.WaterMarkText = "Search";
             // 
             // SearchView
             // 
