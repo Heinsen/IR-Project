@@ -38,7 +38,6 @@ namespace TheApplication.Model
         {
             _LuceneIndexDirectory = null;
             _IndexWriter = null;
-            //_Analyzer = new Lucene.Net.Analysis.Snowball.SnowballAnalyzer(VERSION, "English");
             _Analyzer = new Lucene.Net.Analysis.Standard.StandardAnalyzer(VERSION);
             _Similarity = new NewSimilarity();
         }
@@ -113,7 +112,7 @@ namespace TheApplication.Model
         /// <param name="text">The text to index</param>
         private void IndexDocument(SEDocument document)
         {
-            Lucene.Net.Documents.Field documentIdField = new Field(DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO);
+            Lucene.Net.Documents.Field documentIdField = new Field(DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NO, Field.TermVector.NO);
             Lucene.Net.Documents.Field titleField = new Field(TITLE_FN, document.Title, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
             titleField.Boost = _BoostValue;
             Lucene.Net.Documents.Field abstractField = new Field(ABSTRACT_FN, document.Abstract, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
