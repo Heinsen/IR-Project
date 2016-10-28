@@ -46,24 +46,19 @@ namespace TheApplication.Controller
         }
 
 
-        public void SaveDocument()
+        public bool SaveDocument()
         {
 
             string FileContent = string.Empty;
             foreach (RankedSEDocument Doc in _RankedSEDocuments)
             {
-                //TODO: Add studentnumber and groupname
                 FileContent += _TopicID + " " +
                     "Q0" + " " +
-                    Doc.getDocumentSaveString() + " " + 
-                    "9792066" + 
+                    Doc.getDocumentSaveString() + " " +
+                    "9792066_9647279_SWORD" +
                     Environment.NewLine;
             }
-
-            //TODO: Indicate wether or not it was successfully saved
-            bool SuccessfullySave = FileManipulator.SaveFile((string)Properties.Settings.Default["SavePath"], (string)Properties.Settings.Default["SaveFileName"], FileContent, true);
+            return FileManipulator.SaveFile((string)Properties.Settings.Default["SavePath"], (string)Properties.Settings.Default["SaveFileName"], FileContent, true);
         }
-
-       
     }
 }

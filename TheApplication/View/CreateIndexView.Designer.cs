@@ -73,6 +73,9 @@
             // IndexTimerTextBox
             // 
             this.IndexTimerTextBox.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.IndexTimerTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.IndexTimerTextBox.CausesValidation = false;
             this.IndexTimerTextBox.Location = new System.Drawing.Point(629, 440);
             this.IndexTimerTextBox.Name = "IndexTimerTextBox";

@@ -21,10 +21,10 @@ namespace TheApplication
             Application.SetCompatibleTextRenderingDefault(false);
 
             //Giving CreateIndexController the chosen ILuceneHelperImplementation and IQueryParserImplemenation
-            LuceneHelper LuceneHelper = new LuceneHelper();
-            QueryParser QueryParser = new QueryParser();
+            LuceneClass LuceneClass = new LuceneClass();
+            BooleanQueryParser BooleanQueryParser = new BooleanQueryParser();
             
-            CreateIndexController CreateIndexController = new CreateIndexController(LuceneHelper, QueryParser);
+            CreateIndexController CreateIndexController = new CreateIndexController(LuceneClass, BooleanQueryParser);
             CreateIndexView CreateIndexView = new CreateIndexView();
             CreateIndexView.SetCreateIndexController(CreateIndexController);
             Application.Run(CreateIndexView);

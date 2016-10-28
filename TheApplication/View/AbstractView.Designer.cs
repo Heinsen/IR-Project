@@ -69,7 +69,7 @@
             this.AbstractLabel.Location = new System.Drawing.Point(38, 197);
             this.AbstractLabel.Name = "AbstractLabel";
             this.AbstractLabel.Padding = new System.Windows.Forms.Padding(0, 15, 0, 0);
-            this.AbstractLabel.Size = new System.Drawing.Size(857, 237);
+            this.AbstractLabel.Size = new System.Drawing.Size(857, 376);
             this.AbstractLabel.TabIndex = 4;
             this.AbstractLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -107,7 +107,7 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(38, 448);
+            this.CloseButton.Location = new System.Drawing.Point(38, 588);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(857, 40);
             this.CloseButton.TabIndex = 8;
@@ -119,7 +119,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(949, 500);
+            this.ClientSize = new System.Drawing.Size(949, 640);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.HeaderPanel);
             this.Controls.Add(this.AbstractLabel);

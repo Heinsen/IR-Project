@@ -13,7 +13,7 @@ namespace TheApplication.View
 {
     public partial class SaveView : Form
     {
-        public delegate void SaveFileDelegate();
+        public delegate bool SaveFileDelegate();
         SaveFileDelegate _SaveFileDelegate;
 
         SaveController _SaveController;
@@ -94,7 +94,16 @@ namespace TheApplication.View
             }
             else
             {
-                //TODO: Indicate wether it was a success
+                bool SuccessfullySave = (bool)_SaveFileDelegate.EndInvoke(result);
+
+                if (SuccessfullySave)
+                {
+                    StatusLabel.Text = "Save successful";
+                }
+                else
+                {
+                    StatusLabel.Text = "Save unsuccessful try again";
+                }
 
                 SaveButton.Enabled = true;
             }

@@ -31,6 +31,7 @@
             this.SearchCollectionButton = new System.Windows.Forms.Button();
             this.NoPreprocessingCheckBox = new System.Windows.Forms.CheckBox();
             this.SearchPanel = new System.Windows.Forms.Panel();
+            this.ProcessedQueryTextBox = new TheApplication.View.WaterMarkTextBox();
             this.QueryTextBox = new TheApplication.View.WaterMarkTextBox();
             this.SaveSearchResultButton = new System.Windows.Forms.Button();
             this.SearchResultPanel = new System.Windows.Forms.Panel();
@@ -50,7 +51,7 @@
             // 
             // SearchCollectionButton
             // 
-            this.SearchCollectionButton.Location = new System.Drawing.Point(663, 13);
+            this.SearchCollectionButton.Location = new System.Drawing.Point(886, 13);
             this.SearchCollectionButton.Name = "SearchCollectionButton";
             this.SearchCollectionButton.Size = new System.Drawing.Size(135, 41);
             this.SearchCollectionButton.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             this.NoPreprocessingCheckBox.AutoSize = true;
             this.NoPreprocessingCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NoPreprocessingCheckBox.Location = new System.Drawing.Point(117, 57);
+            this.NoPreprocessingCheckBox.Location = new System.Drawing.Point(104, 51);
             this.NoPreprocessingCheckBox.Name = "NoPreprocessingCheckBox";
             this.NoPreprocessingCheckBox.Size = new System.Drawing.Size(196, 20);
             this.NoPreprocessingCheckBox.TabIndex = 2;
@@ -73,13 +74,28 @@
             // SearchPanel
             // 
             this.SearchPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SearchPanel.Controls.Add(this.ProcessedQueryTextBox);
             this.SearchPanel.Controls.Add(this.QueryTextBox);
             this.SearchPanel.Controls.Add(this.NoPreprocessingCheckBox);
             this.SearchPanel.Controls.Add(this.SearchCollectionButton);
             this.SearchPanel.Location = new System.Drawing.Point(-1, 12);
             this.SearchPanel.Name = "SearchPanel";
-            this.SearchPanel.Size = new System.Drawing.Size(1164, 106);
+            this.SearchPanel.Size = new System.Drawing.Size(1164, 280);
             this.SearchPanel.TabIndex = 3;
+            // 
+            // ProcessedQueryTextBox
+            // 
+            this.ProcessedQueryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.ProcessedQueryTextBox.Location = new System.Drawing.Point(95, 84);
+            this.ProcessedQueryTextBox.Multiline = true;
+            this.ProcessedQueryTextBox.Name = "ProcessedQueryTextBox";
+            this.ProcessedQueryTextBox.ReadOnly = true;
+            this.ProcessedQueryTextBox.Size = new System.Drawing.Size(926, 185);
+            this.ProcessedQueryTextBox.TabIndex = 3;
+            this.ProcessedQueryTextBox.TabStop = false;
+            this.ProcessedQueryTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ProcessedQueryTextBox.WaterMarkColor = System.Drawing.Color.Gray;
+            this.ProcessedQueryTextBox.WaterMarkText = "Your processed query is gonna show up here";
             // 
             // QueryTextBox
             // 
@@ -98,16 +114,17 @@
             this.QueryTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.QueryTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.QueryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.QueryTextBox.Location = new System.Drawing.Point(117, 19);
+            this.QueryTextBox.Location = new System.Drawing.Point(95, 19);
             this.QueryTextBox.Name = "QueryTextBox";
-            this.QueryTextBox.Size = new System.Drawing.Size(483, 26);
+            this.QueryTextBox.Size = new System.Drawing.Size(756, 26);
             this.QueryTextBox.TabIndex = 0;
             this.QueryTextBox.WaterMarkColor = System.Drawing.Color.Gray;
             this.QueryTextBox.WaterMarkText = "Search";
             // 
             // SaveSearchResultButton
             // 
-            this.SaveSearchResultButton.Location = new System.Drawing.Point(321, 814);
+            this.SaveSearchResultButton.Enabled = false;
+            this.SaveSearchResultButton.Location = new System.Drawing.Point(321, 990);
             this.SaveSearchResultButton.Name = "SaveSearchResultButton";
             this.SaveSearchResultButton.Size = new System.Drawing.Size(512, 41);
             this.SaveSearchResultButton.TabIndex = 3;
@@ -121,7 +138,7 @@
             this.SearchResultPanel.Controls.Add(this.ObjectListView);
             this.SearchResultPanel.Controls.Add(this.NextButton);
             this.SearchResultPanel.Controls.Add(this.PreviousButton);
-            this.SearchResultPanel.Location = new System.Drawing.Point(12, 124);
+            this.SearchResultPanel.Location = new System.Drawing.Point(12, 300);
             this.SearchResultPanel.Name = "SearchResultPanel";
             this.SearchResultPanel.Size = new System.Drawing.Size(1132, 679);
             this.SearchResultPanel.TabIndex = 5;
@@ -209,7 +226,7 @@
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripStatusLabel});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 858);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 1040);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(1156, 22);
             this.StatusStrip.TabIndex = 1;
@@ -226,7 +243,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1156, 880);
+            this.ClientSize = new System.Drawing.Size(1156, 1062);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.SearchResultPanel);
             this.Controls.Add(this.SaveSearchResultButton);
@@ -260,5 +277,6 @@
         private BrightIdeasSoftware.OLVColumn Rank;
         private BrightIdeasSoftware.OLVColumn Title;
         private BrightIdeasSoftware.OLVColumn Bibliographic;
+        private WaterMarkTextBox ProcessedQueryTextBox;
     }
 }

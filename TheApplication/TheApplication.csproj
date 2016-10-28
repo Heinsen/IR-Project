@@ -232,17 +232,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\BooleanQueryParser.cs" />
     <Compile Include="Controller\ConfigManipulator.cs" />
     <Compile Include="Controller\CreateIndexController.cs" />
     <Compile Include="Controller\IQueryParser.cs" />
     <Compile Include="Controller\SaveController.cs" />
     <Compile Include="Model\FileManipulator.cs" />
     <Compile Include="Model\ILuceneHelper.cs" />
+    <Compile Include="Model\LuceneClass.cs" />
     <Compile Include="Model\LuceneHelper.cs" />
     <Compile Include="Controller\Program.cs" />
     <Compile Include="Controller\SearchController.cs" />
     <Compile Include="Model\LuceneAdvancedSearch.cs" />
     <Compile Include="Model\RankedSEDocument.cs" />
+    <Compile Include="Model\SearchCollectionResult.cs" />
     <Compile Include="Model\SEDocument.cs" />
     <Compile Include="Model\NewSimilarity.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />

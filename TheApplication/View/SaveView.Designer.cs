@@ -34,6 +34,9 @@
             this.CloseButton = new System.Windows.Forms.Button();
             this.SaveFileNameTextBox = new TheApplication.View.WaterMarkTextBox();
             this.FindSavePathButton = new System.Windows.Forms.Button();
+            this.StatusStrip = new System.Windows.Forms.StatusStrip();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // DocumentPathTextBox
@@ -48,7 +51,7 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(303, 295);
+            this.SaveButton.Location = new System.Drawing.Point(374, 258);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(234, 55);
             this.SaveButton.TabIndex = 7;
@@ -58,9 +61,9 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(303, 473);
+            this.CloseButton.Location = new System.Drawing.Point(90, 258);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(234, 60);
+            this.CloseButton.Size = new System.Drawing.Size(234, 55);
             this.CloseButton.TabIndex = 8;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
@@ -79,7 +82,7 @@
             // 
             // FindSavePathButton
             // 
-            this.FindSavePathButton.Location = new System.Drawing.Point(641, 92);
+            this.FindSavePathButton.Location = new System.Drawing.Point(641, 105);
             this.FindSavePathButton.Name = "FindSavePathButton";
             this.FindSavePathButton.Size = new System.Drawing.Size(138, 46);
             this.FindSavePathButton.TabIndex = 11;
@@ -87,18 +90,38 @@
             this.FindSavePathButton.UseVisualStyleBackColor = true;
             this.FindSavePathButton.Click += new System.EventHandler(this.FindSavePathButton_Click);
             // 
+            // StatusStrip
+            // 
+            this.StatusStrip.AutoSize = false;
+            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabel});
+            this.StatusStrip.Location = new System.Drawing.Point(0, 350);
+            this.StatusStrip.Name = "StatusStrip";
+            this.StatusStrip.Size = new System.Drawing.Size(934, 22);
+            this.StatusStrip.TabIndex = 12;
+            this.StatusStrip.Text = "Please provide a path and a filename";
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(200, 17);
+            this.StatusLabel.Text = "Please provide a path and a filename";
+            // 
             // SaveView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 559);
+            this.ClientSize = new System.Drawing.Size(934, 372);
+            this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.FindSavePathButton);
             this.Controls.Add(this.SaveFileNameTextBox);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.DocumentPathTextBox);
             this.Name = "SaveView";
-            this.Text = "SaveView";
+            this.Text = "Search Engine 1.0 Save query result";
+            this.StatusStrip.ResumeLayout(false);
+            this.StatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -112,5 +135,7 @@
         private System.Windows.Forms.Button CloseButton;
         private WaterMarkTextBox SaveFileNameTextBox;
         private System.Windows.Forms.Button FindSavePathButton;
+        private System.Windows.Forms.StatusStrip StatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
     }
 }

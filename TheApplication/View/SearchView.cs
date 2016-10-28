@@ -16,7 +16,7 @@ namespace TheApplication.View
 {
     public partial class SearchView : Form
     {
-        public delegate List<RankedSEDocument> SearchCollectionDelegate(string QueryString, bool Preprocess, int pageNumber);
+        public delegate SearchCollectionResult SearchCollectionDelegate(string QueryString, bool NoPreprocessing);
         SearchCollectionDelegate _SearchCollectionDelegate;
 
         private SearchController _SearchController;
@@ -26,7 +26,6 @@ namespace TheApplication.View
         private int _CurrentTopListViewItem = 0;
         private int _NNewListViewItems = 10;
 
-        Timer _Timer = new Timer();
         DateTime _StartTime;
 
         public SearchView()
@@ -34,8 +33,6 @@ namespace TheApplication.View
             InitializeComponent();
 
             SetupObjectListView();
-           
-            _Timer.Tick += new EventHandler(Timer_Tick);
         }
 
         private void SetupObjectListView()
@@ -79,12 +76,6 @@ namespace TheApplication.View
             _SearchController = SearchController;
         }
 
-        private void StartTimer()
-        {
-            _StartTime = System.DateTime.Now;
-            _Timer.Start();
-        }
-
         private void SearchCollectionButton_Click(object sender, EventArgs e)
         {
             //Clear local list and ObjectListView
@@ -92,15 +83,18 @@ namespace TheApplication.View
                 _RankedSEDocuments.Clear();
 
             ObjectListView.ClearObjects();
+            SaveSearchResultButton.Enabled = false;
 
-            //Start search timer, updating status label
-            StartTimer();
+            //Start search time
+            _StartTime = DateTime.Now;
 
             SearchCollectionButton.Enabled = false;
 
+            ProcessedQueryTextBox.Clear();
+
             //Start backgroundthread searching the collcation
             _SearchCollectionDelegate = new SearchCollectionDelegate(_SearchController.SearchIndex);
-            _SearchCollectionDelegate.BeginInvoke((string)QueryTextBox.Text, NoPreprocessingCheckBox.Checked, 0, this.SearchedCollection, null);
+            _SearchCollectionDelegate.BeginInvoke(QueryTextBox.Text, !NoPreprocessingCheckBox.Enabled, SearchedCollection, null);
         }
 
         private void SearchedCollection(IAsyncResult result)
@@ -120,17 +114,19 @@ namespace TheApplication.View
             else
             {
                 SearchCollectionButton.Enabled = true;
-
-                _Timer.Stop();
+                SaveSearchResultButton.Enabled = true;
 
                 List<RankedSEDocument> RankedSEDocuments;
 
                 try
                 {
-                    RankedSEDocuments = _SearchCollectionDelegate.EndInvoke(result);
-                    SetListViewData(RankedSEDocuments);
+                    SearchCollectionResult SearchCollectionResult = _SearchCollectionDelegate.EndInvoke(result);
 
-                    SetResultsStripStatusLabel(RankedSEDocuments.Count);
+                    ProcessedQueryTextBox.Text = SearchCollectionResult.ProcessedQuery;
+
+                    SetListViewData(SearchCollectionResult.RankedResults);
+
+                    SetResultsStripStatusLabel(SearchCollectionResult.SearchEndDateTime, SearchCollectionResult.RankedResults.Count);
                 }
                 catch (Exception e)
                 {
@@ -201,20 +197,13 @@ namespace TheApplication.View
 
         private void SaveSearchResultButton_Click(object sender, EventArgs e)
         {
-            _SearchController.SaveRankedDocuments(QueryTextBox.Text, NoPreprocessingCheckBox.Checked);
+            _SearchController.SaveRankedDocuments(QueryTextBox.Text);
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void SetResultsStripStatusLabel(DateTime SearchEndDateTime, int NRankedDocuments)
         {
-            var TimeElapsed = DateTime.Now - _StartTime;
-
-            StripStatusLabel.Text =  "Searching collection " + string.Format("{0:D2}:{1:D2}", TimeElapsed.Minutes, TimeElapsed.Seconds);
-        }
-
-        private void SetResultsStripStatusLabel(int NRankedDocuments)
-        {
-            var TimeElapsed = DateTime.Now - _StartTime;
-            StripStatusLabel.Text = string.Format("Found {0} relevant documents in {1} minutes and {2} seconds", NRankedDocuments, TimeElapsed.Minutes, TimeElapsed.Seconds);
+            var TimeElapsed = SearchEndDateTime - _StartTime;
+            StripStatusLabel.Text = string.Format("Found {0} relevant documents in {1} seconds and {2} milliseconds", NRankedDocuments, TimeElapsed.Seconds, TimeElapsed.Milliseconds);
         }
 
         //Not used in current implementation

@@ -71,25 +71,9 @@ namespace TheApplication.View
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            DateTime CurrentTime = System.DateTime.Now;
+           var TimeElapsed = DateTime.Now - _StartTime;
 
-            int CurrentMinutes = CurrentTime.Minute - _StartTime.Minute;
-            string CurrentMinutesString = CurrentMinutes.ToString();
-            int CurrentSeconds = CurrentTime.Second - _StartTime.Second;
-            string CurrentSecondsString = CurrentSeconds.ToString();
-
-            if (CurrentMinutes < 10)
-            {
-                CurrentMinutesString = "0" + CurrentMinutes;
-            }
-            
-            if (CurrentSeconds < 10)
-            {
-                CurrentSecondsString = "0" + CurrentSeconds;
-            }
-
-
-            IndexTimerTextBox.Text = string.Format("{0}:{1}", CurrentMinutesString, CurrentSecondsString);
+            IndexTimerTextBox.Text = string.Format("{0:D2}:{1:D2}", TimeElapsed.Seconds, TimeElapsed.Milliseconds);
         }
 
 
