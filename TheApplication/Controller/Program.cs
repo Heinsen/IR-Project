@@ -22,12 +22,13 @@ namespace TheApplication
 
             //Giving CreateIndexController the chosen ILuceneHelperImplementation and IQueryParserImplemenation
             LuceneClass LuceneClass = new LuceneClass();
-            //BooleanQueryParser BooleanQueryParser = new BooleanQueryParser();
-            
-            //CreateIndexController CreateIndexController = new CreateIndexController(LuceneClass, BooleanQueryParser);
-            BooleanLexicalQueryParser BooleanLexicalQueryParser = new BooleanLexicalQueryParser();
 
-            CreateIndexController CreateIndexController = new CreateIndexController(LuceneClass, BooleanLexicalQueryParser);
+            BooleanQueryParser BooleanQueryParser = new BooleanQueryParser();
+            CreateIndexController CreateIndexController = new CreateIndexController(LuceneClass, BooleanQueryParser);
+
+            //BooleanLexicalQueryParser BooleanLexicalQueryParser = new BooleanLexicalQueryParser();
+            //CreateIndexController CreateIndexController = new CreateIndexController(LuceneClass, BooleanLexicalQueryParser);
+
             CreateIndexView CreateIndexView = new CreateIndexView();
             CreateIndexView.SetCreateIndexController(CreateIndexController);
             Application.Run(CreateIndexView);
