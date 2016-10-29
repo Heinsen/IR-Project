@@ -56,23 +56,23 @@ namespace TheApplication.Controller
         {
             if ((QueryString.Contains("what \"similarity laws\" must be obeyed when constructing aeroelastic models of heated high speed aircraft")))
             {
-                return "1";
+                return "001";
             }
             else if (string.Equals(QueryString, ("what are the structural and aeroelastic problems associated with flight of high speed aircraft")))
             {
-                return "2";
+                return "002";
             }
             else if (string.Equals(QueryString, ("how can the aerodynamic performance of channel flow ground effect machines be calculated")))
             {
-                return "3";
+                return "023";
             }
             else if (string.Equals(QueryString, ("in summarizing theoretical and experimental work on the behaviour of a typical aircraft structure in a noise environment is it possible to develop a design procedure")))
             {
-                return "4";
+                return "157";
             }
             else if (string.Equals(QueryString, ("has anyone developed an analysis which accurately establishes the large deflection behaviour of \"conical shells\"")))
             {
-                return "5";
+                return "219";
             }
 
             return "0";
