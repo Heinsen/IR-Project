@@ -94,7 +94,7 @@ namespace TheApplication.View
 
             //Start backgroundthread searching the collcation
             _SearchCollectionDelegate = new SearchCollectionDelegate(_SearchController.SearchIndex);
-            _SearchCollectionDelegate.BeginInvoke(QueryTextBox.Text, !NoPreprocessingCheckBox.Enabled, SearchedCollection, null);
+            _SearchCollectionDelegate.BeginInvoke(QueryTextBox.Text, !NoPreprocessingCheckBox.Checked, SearchedCollection, null);
         }
 
         private void SearchedCollection(IAsyncResult result)

@@ -248,5 +248,11 @@ namespace TheApplication.Model
             }
         }
 
+
+
+        public SearchCollectionResult SearchCollection(Query Query)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

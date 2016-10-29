@@ -138,26 +138,13 @@ namespace TheApplication
             string syns = string.Empty;
             for (int i = 1; i <= 3; i++)
             {
-                if(synCount >= i*2)
+                if (synCount >= i * 2)
                 {
                     syns += splittedResult[i * 2].Split('\n')[0] + " ";
                 }
             }
-            /*XmlDocument xmlResult = new XmlDocument();
-            xmlResult.LoadXml(result);
-            string syns = string.Empty;
-            XmlNodeList xmlNode = xmlResult.SelectNodes("/entry_list/entry/sens/syn");
-            if (xmlNode != null && xmlNode.Count > 0)
-            {
-                foreach (XmlNode xNode in xmlNode)
-                {
-                    syns += xNode.FirstChild.Value;
-                    //"adhere (to), comply (with), conform (to), follow, goose-step (to), mind, observe"	string
-
-                }
-            }*/
             webresponse.Close();
-return syns;
+            return syns;
         }
 
 
@@ -225,12 +212,6 @@ return syns;
             POSList.Add("NNS", "Noun");
             POSList.Add("NNP", "Noun");
             POSList.Add("NNPS ", "Noun");
-            //POSList.Add("VBZ", WordNetEngine.POS.Verb);
-            //POSList.Add("VB", WordNetEngine.POS.Verb);
-            //POSList.Add("VBG", WordNetEngine.POS.Verb);
-            //POSList.Add("VBN", WordNetEngine.POS.Verb);
-            //POSList.Add("VBD", WordNetEngine.POS.Verb);
-            //POSList.Add("VBP", WordNetEngine.POS.Verb);
             POSList.Add("JJ", "Adjective");
             return POSList;
         }
@@ -302,5 +283,10 @@ return syns;
 
 
 
+
+        public Lucene.Net.Search.Query ProcessQuery(string Query, bool PreProcess)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

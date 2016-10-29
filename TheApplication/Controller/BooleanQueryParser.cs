@@ -21,6 +21,7 @@ namespace TheApplication.Controller
     {
         MultiFieldQueryParser _MultiFieldQueryParser;
         Analyzer _Analyzer;
+        LexicalHelper _LexicalParser;
 
         const Lucene.Net.Util.Version VERSION = Lucene.Net.Util.Version.LUCENE_30;
         const string DOCUMENTID_FN = "DocumentId";
@@ -33,6 +34,7 @@ namespace TheApplication.Controller
         public BooleanQueryParser()
         {
             _Analyzer = new Lucene.Net.Analysis.Standard.StandardAnalyzer(VERSION);
+            _LexicalParser = new LexicalHelper();
         }
 
         public void InitializeMultiFieldQueryParser(bool PreProcess)
@@ -61,29 +63,6 @@ namespace TheApplication.Controller
             _MultiFieldQueryParser.DefaultOperator = MultiFieldQueryParser.OR_OPERATOR;
         }
 
-        /// <summary>
-        /// Find phrases in a sentence
-        /// </summary>
-        /// <param name="UserQuery">The user query</param>
-        /// <returns>Phrase List</returns>
-        private List<string> FindPhrases(string UserQuery)
-        {
-            List<string> PhraseList = new List<string>();
-            foreach (Match match in Regex.Matches(UserQuery, "\"([^\"]*)\""))
-                PhraseList.Add(match.ToString().Trim('"'));
-            return PhraseList;
-        }
-
-        /// <summary>
-        /// Convert the  given text into tokens and then splits it into tokens according to whitespace and punctuation. 
-        /// </summary>
-        /// <param name="text">Some text</param>
-        /// <returns>Lower case tokens</returns>
-        public string[] TokeniseString(string text)
-        {
-            char[] splitters = new char[] { ' ', '\t', '\'', '"', '-', '(', ')', ',', '’', '\n', ':', ';', '?', '.', '!' };
-            return text.ToLower().Split(splitters, StringSplitOptions.RemoveEmptyEntries);
-        }
 
         public Query ProcessQuery(string QueryString, bool PreProcess)
         {
@@ -95,7 +74,7 @@ namespace TheApplication.Controller
             if (PreProcess)
             {
                 //Extract all phrases
-                List<string> PhraseList = FindPhrases(QueryString);
+                List<string> PhraseList = _LexicalParser.FindPhrases(QueryString);
 
                 QueryParser myQueryParser = new QueryParser();
                 foreach (string phrase in PhraseList)
@@ -119,7 +98,7 @@ namespace TheApplication.Controller
                 FinalQuery.Add(_MultiFieldQueryParser.Parse(QueryString), Occur.SHOULD);
             }
 
-            string[] tokens = TokeniseString(QueryString.Replace('\"', ' ').Replace('[', ' ').Replace(']', ' '));
+            string[] tokens = _LexicalParser.ProcessText(QueryString);
             foreach (string term in tokens)
             {
                 FinalQuery.Add(_MultiFieldQueryParser.Parse(term.Replace("~", "") + "~"), Occur.SHOULD);

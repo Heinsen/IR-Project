@@ -232,10 +232,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\BooleanLexicalQueryParser.cs" />
     <Compile Include="Controller\BooleanQueryParser.cs" />
     <Compile Include="Controller\ConfigManipulator.cs" />
     <Compile Include="Controller\CreateIndexController.cs" />
     <Compile Include="Controller\IQueryParser.cs" />
+    <Compile Include="Controller\LexicalHelper.cs" />
     <Compile Include="Controller\SaveController.cs" />
     <Compile Include="Model\FileManipulator.cs" />
     <Compile Include="Model\ILuceneHelper.cs" />
