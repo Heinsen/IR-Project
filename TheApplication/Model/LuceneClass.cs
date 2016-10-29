@@ -74,7 +74,7 @@ namespace TheApplication.Model
         }
 
         /// <summary>
-        /// Indexes a given string into the index
+        /// Indexes a given document into the index
         /// </summary>
         /// <param name="text">The text to index</param>
         private void IndexDocument(SEDocument document)
@@ -116,7 +116,7 @@ namespace TheApplication.Model
                 string DocumentID = Document.Get(DOCUMENTID_FN).ToString();
 
                 SEDocument CurrentDoc = _SourceCollection.Find(d => d.ID == DocumentID);
-                SearchCollectionResult.RankedResults.Add(LoadRankedSEDocument(CurrentDoc, Rank, 0));
+                SearchCollectionResult.RankedResults.Add(LoadRankedSEDocument(CurrentDoc, Rank, ScoreDoc.Score));
 
                 Rank++;
             }
