@@ -36,11 +36,8 @@ namespace TheApplication.Model
                 {
                     try
                     {
-                        using (FileStream FileStream = File.Open(pathString, FileMode.Open))
+                        using (FileStream FileStream = File.Open(pathString, FileMode.Append))
                         {
-                            StreamReader StreamReader = new StreamReader(FileStream);
-                            FileContent = StreamReader.ReadToEnd() + Environment.NewLine + FileContent;
-
                             StreamWriter StreamWriter = new StreamWriter(FileStream);
                             StreamWriter.Write(FileContent);
 

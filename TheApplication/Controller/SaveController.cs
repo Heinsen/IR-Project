@@ -15,7 +15,6 @@ namespace TheApplication.Controller
         List<RankedSEDocument> _RankedSEDocuments;
         string _TopicID;
 
-        //TODO: Pass correct TopicID
         public SaveController(string TopicID, List<RankedSEDocument> RankedSEDocuments)
         {
             this._TopicID = TopicID;

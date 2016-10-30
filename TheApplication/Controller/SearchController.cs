@@ -25,17 +25,18 @@ namespace TheApplication.Controller
             _ILuceneHelper = LuceneHelper;
             _IQueryParser = IQueryParser;
             _SourceCollection = _Source;
+
+            _RankedSEDocuments = new List<RankedSEDocument>();
         }
 
         public SearchCollectionResult SearchIndex(string QueryString, bool PreProcess)
         {
-            List<string> phraseList = new List<string>();
-
             Query Query = _IQueryParser.ProcessQuery(QueryString, PreProcess);
-            
+            _RankedSEDocuments.Clear();
+
             SearchCollectionResult SearchCollectionResult = _ILuceneHelper.SearchCollection(Query);
             SearchCollectionResult.ProcessedQuery = Query.ToString();
-            _RankedSEDocuments = SearchCollectionResult.RankedResults;
+            _RankedSEDocuments.AddRange(SearchCollectionResult.RankedResults);
 
             return SearchCollectionResult;
         }
