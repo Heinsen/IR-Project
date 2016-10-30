@@ -9,9 +9,11 @@ namespace TheApplication
 {
     public class SEDocument
     {
-        public SEDocument()
-        {
-        }
+        public const string DOCUMENTID_FN = "DocumentId";
+        public const string TITLE_FN = "Title";
+        public const string AUTHOR_FN = "Author";
+        public const string BIBLIOGRAPHIC_FN = "Bibliographic";
+        public const string ABSTRACT_FN = "Abstract";
 
         public SEDocument(string ID, string Title, string Author, string Bibliographic, string Abstract)
         {

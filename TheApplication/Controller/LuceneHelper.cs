@@ -9,24 +9,19 @@ using TheApplication.View;
 
 namespace TheApplication.Model
 {
-    public class LuceneClass : ILuceneHelper
+    public class LuceneHelper : ILuceneHelper
     {
         Directory _LuceneIndexDirectory;
         Analyzer _Analyzer;
         IndexWriter _IndexWriter;
         IndexSearcher _IndexSearcher;
         Similarity _Similarity;
-        float _BoostValue = 2.0F;
+        float _TitleBoostValue = 2.0F;
         List<SEDocument> _SourceCollection;
 
         const Lucene.Net.Util.Version VERSION = Lucene.Net.Util.Version.LUCENE_30;
-        const string DOCUMENTID_FN = "DocumentId";
-        const string TITLE_FN = "Title";
-        const string AUTHOR_FN = "Author";
-        const string BIBLIOGRAPHIC_FN = "Bibliographic";
-        const string ABSTRACT_FN = "Abstract";
 
-        public LuceneClass()
+        public LuceneHelper()
         {
             _LuceneIndexDirectory = null;
             _IndexWriter = null;
@@ -59,8 +54,7 @@ namespace TheApplication.Model
             _IndexSearcher = new IndexSearcher(_LuceneIndexDirectory);
             _IndexSearcher.Similarity = _Similarity;
         }
-
-
+        
         /// <summary>
         /// Creates the index at a given path
         /// </summary>
@@ -79,10 +73,10 @@ namespace TheApplication.Model
         /// <param name="text">The text to index</param>
         private void IndexDocument(SEDocument document)
         {
-            Field DocumentIdField = new Field(DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NO, Field.TermVector.NO);
-            Field TitleField = new Field(TITLE_FN, document.Title, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
-            TitleField.Boost = _BoostValue;
-            Field AbstractField = new Field(ABSTRACT_FN, document.Abstract, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
+            Field DocumentIdField = new Field(SEDocument.DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NO, Field.TermVector.NO);
+            Field TitleField = new Field(SEDocument.TITLE_FN, document.Title, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
+            TitleField.Boost = _TitleBoostValue;
+            Field AbstractField = new Field(SEDocument.ABSTRACT_FN, document.Abstract, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
             Document doc = new Document();
 
             doc.Add(DocumentIdField);
@@ -108,12 +102,13 @@ namespace TheApplication.Model
             TopDocs TopDocs = _IndexSearcher.Search(Query, 1400);
             SearchCollectionResult.SearchEndDateTime = DateTime.Now;
             SearchCollectionResult.RankedResults = new List<RankedSEDocument>();
+
             int Rank = 1;
 
             foreach (ScoreDoc ScoreDoc in TopDocs.ScoreDocs)
             {
                 Document Document = _IndexSearcher.Doc(ScoreDoc.Doc);
-                string DocumentID = Document.Get(DOCUMENTID_FN).ToString();
+                string DocumentID = Document.Get(SEDocument.DOCUMENTID_FN).ToString();
 
                 SEDocument CurrentDoc = _SourceCollection.Find(d => d.ID == DocumentID);
                 SearchCollectionResult.RankedResults.Add(LoadRankedSEDocument(CurrentDoc, Rank, ScoreDoc.Score));
@@ -125,7 +120,7 @@ namespace TheApplication.Model
             return SearchCollectionResult;
         }
 
-        public RankedSEDocument LoadRankedSEDocument(SEDocument SEDocument, int Rank, float RelevanceScore)
+        private RankedSEDocument LoadRankedSEDocument(SEDocument SEDocument, int Rank, float RelevanceScore)
         {
             return new RankedSEDocument(SEDocument.ID, SEDocument.Title, SEDocument.Author, SEDocument.Bibliographic, SEDocument.Abstract, Rank, RelevanceScore);
         }

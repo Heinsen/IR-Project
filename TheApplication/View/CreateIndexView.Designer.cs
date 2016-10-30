@@ -142,7 +142,6 @@
             this.Controls.Add(this.SetSourceCollectionPathButton);
             this.Name = "CreateIndexView";
             this.Text = "Search Engine 1.0 Create Index";
-            this.Load += new System.EventHandler(this.CreateIndexView_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

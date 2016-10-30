@@ -47,7 +47,7 @@ namespace TheApplication.View
         private void SetIndexPathButton_Click(object sender, EventArgs e)
         {
             string NewIndexPath = ShowFolderBrowser();
-            if(NewIndexPath != string.Empty)
+            if (NewIndexPath != string.Empty)
             {
                 IndexPathTextBox.Text = NewIndexPath;
                 _CreateIndexController.SetIndexPath(NewIndexPath);
@@ -71,7 +71,7 @@ namespace TheApplication.View
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-           var TimeElapsed = DateTime.Now - _StartTime;
+            var TimeElapsed = DateTime.Now - _StartTime;
 
             IndexTimerTextBox.Text = string.Format("{0:D2}:{1:D2}", TimeElapsed.Seconds, TimeElapsed.Milliseconds);
         }
@@ -93,12 +93,13 @@ namespace TheApplication.View
         {
             if (this.InvokeRequired)
             {
-                try {
-                this.Invoke(
-                    new MethodInvoker(
-                    delegate () { IndexCreated(result); }));
+                try
+                {
+                    this.Invoke(
+                        new MethodInvoker(
+                        delegate () { IndexCreated(result); }));
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                 }
             }
@@ -111,9 +112,9 @@ namespace TheApplication.View
                 {
                     SuccessfullyCreatedIndex = _CreateIndexDelegate.EndInvoke(result);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                   
+
                 }
                 _Timer.Stop();
                 CreateIndexButton.Enabled = true;
@@ -133,13 +134,6 @@ namespace TheApplication.View
         {
             _CreateIndexController.ConfirmIndex();
             this.Hide();
-        }
-
-        private void CreateIndexView_Load(object sender, EventArgs e)
-        {
-            QueryParser _QueryParser = new QueryParser();
-            _QueryParser.LoadPOSTagger();
-            _QueryParser.BindPOSDictionary();
         }
     }
 }

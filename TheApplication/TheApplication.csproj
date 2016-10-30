@@ -238,14 +238,13 @@
     <Compile Include="Controller\CreateIndexController.cs" />
     <Compile Include="Controller\IQueryParser.cs" />
     <Compile Include="Controller\LexicalHelper.cs" />
+    <Compile Include="Controller\PosTaggerLexicalHelper.cs" />
     <Compile Include="Controller\SaveController.cs" />
     <Compile Include="Model\FileManipulator.cs" />
     <Compile Include="Model\ILuceneHelper.cs" />
-    <Compile Include="Model\LuceneClass.cs" />
     <Compile Include="Model\LuceneHelper.cs" />
     <Compile Include="Controller\Program.cs" />
     <Compile Include="Controller\SearchController.cs" />
-    <Compile Include="Model\LuceneAdvancedSearch.cs" />
     <Compile Include="Model\RankedSEDocument.cs" />
     <Compile Include="Model\SearchCollectionResult.cs" />
     <Compile Include="Model\SEDocument.cs" />
@@ -254,7 +253,6 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Controller\PorterStemmer.cs" />
-    <Compile Include="Controller\QueryParser.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -276,12 +274,6 @@
     </Compile>
     <Compile Include="View\CreateIndexView.Designer.cs">
       <DependentUpon>CreateIndexView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\frmIR.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\frmIR.Designer.cs">
-      <DependentUpon>frmIR.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SaveView.cs">
       <SubType>Form</SubType>
@@ -307,9 +299,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\CreateIndexView.resx">
       <DependentUpon>CreateIndexView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\frmIR.resx">
-      <DependentUpon>frmIR.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SaveView.resx">
       <DependentUpon>SaveView.cs</DependentUpon>

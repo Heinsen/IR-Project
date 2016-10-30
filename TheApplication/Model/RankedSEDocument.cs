@@ -10,18 +10,7 @@ namespace TheApplication.Model
             this.RelevanceScore = RelevanceScore;
             this.Description = CreateDescription();
         }
-
-        public RankedSEDocument(string ID, int Rank, float RelevanceScore)
-        {
-            this.ID = ID;
-            this.Rank = Rank;
-            this.RelevanceScore = RelevanceScore;
-        }
-
-        public RankedSEDocument(string SEDocumentText) : base(SEDocumentText)
-        {
-        }
-
+        
         private string CreateDescription()
         {
             return Author + Environment.NewLine + getAbstractFirstLine();
