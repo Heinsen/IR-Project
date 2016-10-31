@@ -36,15 +36,17 @@ namespace TheApplication.Controller
             boosts.Add(SEDocument.ABSTRACT_FN, (float)5);
 
             _MultiFieldQueryParserPreProcess = new MultiFieldQueryParser(
-                Lucene.Net.Util.Version.LUCENE_30, fields,
-                _Analyzer
-                , boosts
+                Lucene.Net.Util.Version.LUCENE_30,
+                fields,
+                _Analyzer,
+                boosts
                 );
             _MultiFieldQueryParserPreProcess.DefaultOperator = MultiFieldQueryParser.OR_OPERATOR;
 
             //Initialization of No Preprocess MultiFieldQueryParser
             _MultiFieldQueryParserNoPreProccess = new MultiFieldQueryParser(
-                       Lucene.Net.Util.Version.LUCENE_30, fields,
+                       Lucene.Net.Util.Version.LUCENE_30,
+                       fields,
                        _Analyzer);
             
             _MultiFieldQueryParserNoPreProccess.DefaultOperator = MultiFieldQueryParser.OR_OPERATOR;
@@ -67,18 +69,18 @@ namespace TheApplication.Controller
                     abstractPhraseQuery.Add(new Term(SEDocument.ABSTRACT_FN, phrase));
                     titlePhraseQuery.Add(new Term(SEDocument.TITLE_FN, phrase));
 
-                    abstractPhraseQuery.Boost = 1.2F;
-                    abstractPhraseQuery.Slop = 3;
+                    abstractPhraseQuery.Boost = 3.0F;
+                    abstractPhraseQuery.Slop = 2;
                     FinalQuery.Add(abstractPhraseQuery, Occur.SHOULD);
                     titlePhraseQuery.Boost = 4.0F;
-                    titlePhraseQuery.Slop = 3;
+                    titlePhraseQuery.Slop = 2;
                     FinalQuery.Add(titlePhraseQuery, Occur.SHOULD);
                 }
 
                 string[] tokens = _LexicalParser.ProcessText(QueryString);
                 foreach (string term in tokens)
                 {
-                    FinalQuery.Add(_MultiFieldQueryParserPreProcess.Parse(term.Replace("~", "") + "~"), Occur.SHOULD);
+                    FinalQuery.Add(_MultiFieldQueryParserPreProcess.Parse(term.Replace("~", "") + "~0.3"), Occur.SHOULD);
                 }
 
             }
@@ -89,7 +91,7 @@ namespace TheApplication.Controller
                 string[] tokens = _LexicalParser.ProcessText(QueryString);
                 foreach (string term in tokens)
                 {
-                    FinalQuery.Add(_MultiFieldQueryParserNoPreProccess.Parse(term.Replace("~", "") + "~"), Occur.SHOULD);
+                    FinalQuery.Add(_MultiFieldQueryParserNoPreProccess.Parse(term.Replace("~", "") + "~0.3"), Occur.SHOULD);
                 }
 
             }

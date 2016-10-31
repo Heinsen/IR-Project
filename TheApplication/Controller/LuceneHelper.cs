@@ -16,7 +16,8 @@ namespace TheApplication.Model
         IndexWriter _IndexWriter;
         IndexSearcher _IndexSearcher;
         Similarity _Similarity;
-        float _TitleBoostValue = 2.0F;
+        float _TitleBoostValue = 3.0F;
+        float _AbstractBoostValue = 2.7F;
         List<SEDocument> _SourceCollection;
 
         const Lucene.Net.Util.Version VERSION = Lucene.Net.Util.Version.LUCENE_30;
@@ -74,9 +75,10 @@ namespace TheApplication.Model
         private void IndexDocument(SEDocument document)
         {
             Field DocumentIdField = new Field(SEDocument.DOCUMENTID_FN, document.ID, Field.Store.YES, Field.Index.NO, Field.TermVector.NO);
-            Field TitleField = new Field(SEDocument.TITLE_FN, document.Title, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
+            Field TitleField = new Field(SEDocument.TITLE_FN, document.Title, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.NO);
             TitleField.Boost = _TitleBoostValue;
-            Field AbstractField = new Field(SEDocument.ABSTRACT_FN, document.Abstract, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES);
+            Field AbstractField = new Field(SEDocument.ABSTRACT_FN, document.Abstract, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.NO);
+            AbstractField.Boost = _AbstractBoostValue;
             Document doc = new Document();
 
             doc.Add(DocumentIdField);
