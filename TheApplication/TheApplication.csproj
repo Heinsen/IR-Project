@@ -241,8 +241,8 @@
     <Compile Include="Controller\PosTaggerLexicalHelper.cs" />
     <Compile Include="Controller\SaveController.cs" />
     <Compile Include="Model\FileManipulator.cs" />
-    <Compile Include="Model\ILuceneHelper.cs" />
-    <Compile Include="Model\LuceneHelper.cs" />
+    <Compile Include="Controller\ILuceneHelper.cs" />
+    <Compile Include="Controller\LuceneHelper.cs" />
     <Compile Include="Controller\Program.cs" />
     <Compile Include="Controller\SearchController.cs" />
     <Compile Include="Model\RankedSEDocument.cs" />
