@@ -39,7 +39,7 @@ namespace TheApplication.Controller
         /// </summary>
         /// <param name="text">Some text</param>
         /// <returns>Lower case tokens</returns>
-        protected string[] TokeniseString(string text)
+        public string[] TokeniseString(string text)
         {
             char[] splitters = new char[] { ' ', '\t', '\'', '"', '-', '(', ')', ',', '’', '\n', ':', ';', '?', '.', '!' };
             return text.ToLower().Split(splitters, StringSplitOptions.RemoveEmptyEntries);
