@@ -70,10 +70,10 @@ namespace TheApplication.Controller
                     titlePhraseQuery.Add(new Term(SEDocument.TITLE_FN, phrase));
 
                     abstractPhraseQuery.Boost = 3.0F;
-                    abstractPhraseQuery.Slop = 2;
+                    abstractPhraseQuery.Slop = 3;
                     FinalQuery.Add(abstractPhraseQuery, Occur.SHOULD);
                     titlePhraseQuery.Boost = 4.0F;
-                    titlePhraseQuery.Slop = 2;
+                    titlePhraseQuery.Slop = 3;
                     FinalQuery.Add(titlePhraseQuery, Occur.SHOULD);
                 }
 
@@ -83,20 +83,13 @@ namespace TheApplication.Controller
                     FinalQuery.Add(_MultiFieldQueryParserPreProcess.Parse(term.Replace("~", "") + "~0.3"), Occur.SHOULD);
                 }
 
+                FinalQuery.MinimumNumberShouldMatch = 2;
             }
             else
             {
                 FinalQuery.Add(_MultiFieldQueryParserNoPreProccess.Parse(QueryString), Occur.SHOULD);
-
-                string[] tokens = _LexicalParser.ProcessText(QueryString);
-                foreach (string term in tokens)
-                {
-                    FinalQuery.Add(_MultiFieldQueryParserNoPreProccess.Parse(term.Replace("~", "") + "~0.3"), Occur.SHOULD);
-                }
-
             }
 
-            FinalQuery.MinimumNumberShouldMatch = 2;
             return FinalQuery;
         }
 
