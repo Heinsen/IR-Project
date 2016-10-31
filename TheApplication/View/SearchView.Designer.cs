@@ -80,7 +80,7 @@
             this.SearchPanel.Controls.Add(this.SearchCollectionButton);
             this.SearchPanel.Location = new System.Drawing.Point(-1, 12);
             this.SearchPanel.Name = "SearchPanel";
-            this.SearchPanel.Size = new System.Drawing.Size(1164, 280);
+            this.SearchPanel.Size = new System.Drawing.Size(1164, 199);
             this.SearchPanel.TabIndex = 3;
             // 
             // ProcessedQueryTextBox
@@ -90,7 +90,7 @@
             this.ProcessedQueryTextBox.Multiline = true;
             this.ProcessedQueryTextBox.Name = "ProcessedQueryTextBox";
             this.ProcessedQueryTextBox.ReadOnly = true;
-            this.ProcessedQueryTextBox.Size = new System.Drawing.Size(926, 185);
+            this.ProcessedQueryTextBox.Size = new System.Drawing.Size(926, 101);
             this.ProcessedQueryTextBox.TabIndex = 3;
             this.ProcessedQueryTextBox.TabStop = false;
             this.ProcessedQueryTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -124,7 +124,7 @@
             // SaveSearchResultButton
             // 
             this.SaveSearchResultButton.Enabled = false;
-            this.SaveSearchResultButton.Location = new System.Drawing.Point(321, 990);
+            this.SaveSearchResultButton.Location = new System.Drawing.Point(321, 909);
             this.SaveSearchResultButton.Name = "SaveSearchResultButton";
             this.SaveSearchResultButton.Size = new System.Drawing.Size(512, 41);
             this.SaveSearchResultButton.TabIndex = 3;
@@ -138,7 +138,7 @@
             this.SearchResultPanel.Controls.Add(this.ObjectListView);
             this.SearchResultPanel.Controls.Add(this.NextButton);
             this.SearchResultPanel.Controls.Add(this.PreviousButton);
-            this.SearchResultPanel.Location = new System.Drawing.Point(12, 300);
+            this.SearchResultPanel.Location = new System.Drawing.Point(12, 215);
             this.SearchResultPanel.Name = "SearchResultPanel";
             this.SearchResultPanel.Size = new System.Drawing.Size(1132, 679);
             this.SearchResultPanel.TabIndex = 5;
@@ -226,7 +226,7 @@
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StripStatusLabel});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 1040);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 960);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(1156, 22);
             this.StatusStrip.TabIndex = 1;
@@ -243,7 +243,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1156, 1062);
+            this.ClientSize = new System.Drawing.Size(1156, 982);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.SearchResultPanel);
             this.Controls.Add(this.SaveSearchResultButton);
